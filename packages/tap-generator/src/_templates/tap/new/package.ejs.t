@@ -15,13 +15,17 @@ to: tap-<%=name%>/package.json
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@node-elt/singer-js": "^1.0.0",
+    "@node-elt/tap-framework": "^1.0.0",
     "axios": "^0.21.1",
     "commander": "^7.2.0",
     "dayjs": "^1.10.4",
     "fs-extra": "^9.1.0",
+    "json_typegen_wasm": "^0.6.1",
     "lodash": "^4.17.21",
     "pino": "^6.11.2",
-    "pino-pretty": "^4.7.1"
+    "pino-pretty": "^4.7.1",
+    "quicktype-core": "^6.0.70"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
