@@ -1,4 +1,4 @@
-import { messages } from '@node-etl/singer-js';
+import { messages } from '@node-elt/singer-js';
 import fs from 'fs-extra';
 import Logger from './logger';
 

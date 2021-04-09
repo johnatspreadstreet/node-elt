@@ -1,4 +1,4 @@
-import singer from '@node-etl/singer-js';
+import singer from '@node-elt/singer-js';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import Logger from './logger';

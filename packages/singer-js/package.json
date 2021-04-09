@@ -1,5 +1,5 @@
 {
-  "name": "@node-etl/singer-js",
+  "name": "@node-elt/singer-js",
   "version": "1.0.0",
   "description": "Singer framework implemented in Nodejs",
   "main": "lib/",
