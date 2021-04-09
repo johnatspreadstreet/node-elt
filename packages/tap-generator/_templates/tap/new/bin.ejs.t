@@ -2,17 +2,8 @@
 to: tap-<%=name%>/bin/tap-<%=name%>.js
 ---
 #!/usr/bin/env node
-const main = require('../src');
 const commander = require('commander');
-const { Runner } = require('./tap-framework');
-const singer = require('./singer-js');
-const { AVAILABLE_STREAMS } = require('./streams');
-const { Client } = require('./client');
-const Logger = require('./logger');
-
-const CONFIG_KEYS = [];
-
-class CryptUnitRunner extends Runner {}
+const main = require('../src');
 
 commander
   .option(
