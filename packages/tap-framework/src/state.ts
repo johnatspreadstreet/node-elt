@@ -11,7 +11,6 @@ export const saveState = (state) => {
     return;
   }
 
-  Logger.info('Updating state.');
   writeState(state);
 };
 

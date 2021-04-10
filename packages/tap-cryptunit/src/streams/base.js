@@ -3,6 +3,9 @@ const { streams } = require('@node-elt/tap-framework');
 const Logger = require('../logger');
 
 exports.BaseStream = class BaseStream extends streams.BaseStream {
+  KEY_PROPERTIES = ['id'];
+
+  BASE_URL = 'https://www.cryptunit.com';
   //   syncPaginated(path, method) {}
 
   syncData(path, method) {
