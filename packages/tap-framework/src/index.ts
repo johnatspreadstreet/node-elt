@@ -3,6 +3,8 @@ import { saveState } from './state';
 import Logger from './logger';
 import { isSelected } from './streams';
 
+export * as streams from './streams';
+
 export function Runner(args, client, availableStreams) {
   return {
     config: args.config,
@@ -53,10 +55,10 @@ export function Runner(args, client, availableStreams) {
 
       const catalog = [];
 
-      this.availableStreams.forEach((availableStream) => {
-        const stream = availableStream(this.config, this.state, null, null);
+      this.availableStreams.forEach((AvailableStream) => {
+        const stream = new AvailableStream(this.config, this.state, null, null);
 
-        catalog.push(stream);
+        catalog.push(stream.generateCatalog());
       });
 
       const data = {

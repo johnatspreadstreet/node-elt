@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "shortname": {
+      "type": "string"
+    },
+    "shortname1": {
+      "type": "string"
+    },
+    "asic": {
+      "type": "integer"
+    }
+  },
+  "required": ["asic", "id", "name", "shortname", "shortname1"],
+  "title": "Algorithm"
+}

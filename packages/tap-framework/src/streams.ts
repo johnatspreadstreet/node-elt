@@ -1,4 +1,8 @@
+/* eslint-disable class-methods-use-this */
+import fs from 'fs';
+import { resolve } from 'path';
 import singer from '@node-elt/singer-js';
+import size from 'lodash/size';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import Logger from './logger';
@@ -79,22 +83,57 @@ export class BaseStream {
     this.substreams = [];
   }
 
-  getUrl() {}
+  // getUrl() {}
 
-  getStreamData(result) {}
+  // getStreamData(result) {}
 
-  getClassPath() {}
+  // getClassPath() {}
 
-  loadSchemaByName(name) {}
+  loadSchemaByName(name) {
+    console.log(name);
+    const pathToSchema = resolve(process.cwd(), 'schemas', `${name}.json`);
+    const schema = fs.readFileSync(pathToSchema);
+
+    return schema;
+  }
 
   getSchema() {
     return this.loadSchemaByName(this.TABLE);
   }
 
-  syncData(substreams = []) {
-    const table = this.TABLE;
-    const url = this.getUrl();
-    const result = this.client.make_request(url, this.API_METHOD);
-    const data = this.getStreamData(result);
+  // matchesCatalog(cls, streamCatalog) {
+  //   return streamCatalog.stream === cls.TABLE;
+  // }
+
+  generateCatalog() {
+    const schema = this.getSchema();
+    const mdata = singer.metadata.write({}, [], 'inclusion', 'available');
+
+    return [
+      {
+        tap_stream_id: this.TABLE,
+        stream: this.TABLE,
+        key_properties: this.KEY_PROPERTIES,
+        schema: this.getSchema(),
+        metadata: singer.metadata.toList(mdata),
+      },
+    ];
   }
+
+  // transformRecord(record) {
+
+  // }
+
+  // syncData(substreams = []) {
+  //   const table = this.TABLE;
+  //   const url = this.getUrl();
+  //   const result = this.client.makeRequest(url, this.API_METHOD);
+  //   const data = this.getStreamData(result);
+
+  //   data.forEach((obj, index) => {
+  //     Logger.info(`On ${index} of ${size(data)}`);
+
+  //     singer.writeRecords();
+  //   });
+  // }
 }

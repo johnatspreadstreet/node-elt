@@ -16,9 +16,10 @@
   },
   "types": "lib/",
   "dependencies": {
+    "dayjs": "^1.10.4",
+    "fs-extra": "^9.1.0",
     "lodash": "^4.17.21",
-    "pino": "^6.11.2",
-    "fs-extra": "^9.1.0"
+    "pino": "^6.11.2"
   },
   "devDependencies": {
     "@types/chai": "^4.2.15",
