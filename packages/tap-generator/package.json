@@ -14,5 +14,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "gitHead": "959b61004987bd60cf8fa786cebd69bc78876e3b",
+  "publishConfig": {
+    "access": "public"
   }
 }

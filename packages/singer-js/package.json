@@ -44,5 +44,6 @@
     "test": "npm run mocha",
     "watch": "tsc -w"
   },
-  "types": "lib/"
+  "types": "lib/",
+  "gitHead": "959b61004987bd60cf8fa786cebd69bc78876e3b"
 }
