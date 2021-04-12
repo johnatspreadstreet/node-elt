@@ -1,7 +1,7 @@
 {
   "name": "@node-elt/tap-generator",
   "description": "",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "",
   "dependencies": {
     "axios": "^0.21.1",

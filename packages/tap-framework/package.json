@@ -1,10 +1,10 @@
 {
   "name": "@node-elt/tap-framework",
   "description": "",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "",
   "dependencies": {
-    "@node-elt/singer-js": "^1.0.1",
+    "@node-elt/singer-js": "^1.0.2",
     "axios": "^0.21.1",
     "fs-extra": "^9.1.0",
     "lodash": "^4.17.21",
