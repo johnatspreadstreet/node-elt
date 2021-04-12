@@ -69,8 +69,6 @@ lib/
 **/es
 es/
 
-package-lock.json
-
 # ignore generated files
 
 *.d.ts
