@@ -18,7 +18,10 @@
         "title": "Algorithm"
       },
       "metadata": [
-        { "breadcrumb": [], "metadata": { "inclusion": "available" } },
+        {
+          "breadcrumb": [],
+          "metadata": { "inclusion": "available", "selected": true }
+        },
         {
           "breadcrumb": ["properties", "id"],
           "metadata": { "inclusion": "automatic" }

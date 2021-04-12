@@ -89,3 +89,32 @@ export const writeRecords = (streamName, records) => {
 export const writeState = (value) => {
   writeMessage(stateMessage(value));
 };
+
+/**
+ * Write a schema message.
+ * @param streamName
+ * @param schema
+ * @param keyProperties
+ * @param bookmarkProperties
+ * @param streamAlias
+ */
+export const writeSchema = (
+  streamName,
+  schema,
+  keyProperties,
+  bookmarkProperties = null,
+  streamAlias = null
+) => {
+  const result = {
+    type: 'SCHEMA',
+    stream: streamAlias || streamName,
+    schema,
+    key_properties: keyProperties,
+  };
+
+  if (bookmarkProperties) {
+    result.bookmark_properties = bookmarkProperties;
+  }
+
+  writeMessage(result);
+};

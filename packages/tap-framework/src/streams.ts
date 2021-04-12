@@ -2,8 +2,8 @@
 import fs from 'fs';
 import { resolve } from 'path';
 import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
-import { metadata } from '@node-elt/singer-js';
+import size from 'lodash/size';
+import { metadata, messages } from '@node-elt/singer-js';
 import Logger from './logger';
 
 export const SPLIT_KEY = ':::';
@@ -36,9 +36,8 @@ interface StreamCatalog {
  * @param streamCatalog
  */
 export const isSelected = (streamCatalog: StreamCatalog) => {
-  const streamMetadata: any = streamCatalog.metadata.find((meta) =>
-    isEmpty(meta.breadcrumb)
-  );
+  const mdata = metadata.toMap(streamCatalog.metadata);
+  const streamMetadata = mdata[''];
 
   const { inclusion } = streamMetadata;
   const selected = get(streamMetadata, 'selected', null);
@@ -85,9 +84,13 @@ export class BaseStream {
     this.substreams = [];
   }
 
-  // getUrl() {}
+  getUrl() {
+    return null;
+  }
 
-  // getStreamData(result) {}
+  getStreamData(result) {
+    return null;
+  }
 
   // getClassPath() {}
 
@@ -139,20 +142,42 @@ export class BaseStream {
     };
   }
 
+  matchesCatalog(streamCatalog) {
+    return streamCatalog.stream === this.TABLE;
+  }
+
+  // requirementsMet(cls, catalog) {
+
+  // }
+
+  writeSchema() {
+    messages.writeSchema(
+      this.catalog.stream,
+      this.catalog.schema,
+      this.catalog.key_properties
+    );
+  }
+
+  sync() {
+    Logger.info(`Syncing stream ${this.catalog.tap_stream_id}`);
+
+    this.writeSchema();
+
+    return this.syncData();
+  }
   // transformRecord(record) {
 
   // }
 
-  // syncData(substreams = []) {
-  //   const table = this.TABLE;
-  //   const url = this.getUrl();
-  //   const result = this.client.makeRequest(url, this.API_METHOD);
-  //   const data = this.getStreamData(result);
+  syncData(substreams = []) {
+    const table = this.TABLE;
+    const url = this.getUrl();
+    const result = this.client.makeRequest(url, this.API_METHOD);
+    const data = this.getStreamData(result);
 
-  //   data.forEach((obj, index) => {
-  //     Logger.info(`On ${index} of ${size(data)}`);
-
-  //     singer.writeRecords();
-  //   });
-  // }
+    data.forEach((obj, index) => {
+      Logger.info(`On ${index} of ${size(data)}`);
+      // messages.writeRecords();
+    });
+  }
 }

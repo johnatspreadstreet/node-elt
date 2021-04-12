@@ -1,12 +1,16 @@
 import has from 'lodash/has';
 import update from 'lodash/update';
-import get from 'lodash/get';
-import isEqual from 'lodash/isEqual';
-import forEach from 'lodash/forEach';
-import matchesProperty from 'lodash/matchesProperty';
-import isEmpty from 'lodash/isEmpty';
 
 export const SPLIT_KEY = ':::';
+
+export const toMap = (rawMetadata: Array<any>) =>
+  rawMetadata.reduce((acc, metaItem) => {
+    const { breadcrumb, metadata } = metaItem;
+
+    acc[breadcrumb.join(SPLIT_KEY)] = metadata;
+
+    return acc;
+  }, {});
 
 export const toList = (compiledMetadata) => {
   const list = [];

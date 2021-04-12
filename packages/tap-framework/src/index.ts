@@ -19,21 +19,28 @@ export function Runner(args, client, availableStreams) {
 
       this.catalog.streams.forEach((streamCatalog) => {
         if (!isSelected(streamCatalog)) {
-          Logger.debug(
+          Logger.info(
             `${streamCatalog.stream} is not marked selected, skipping.`
           );
           return;
         }
 
-        this.availableStreams.forEach((availableStream) => {
-          if (availableStream.matches_catalog(streamCatalog)) {
-            if (!availableStream.requirements_met(this.catalog)) {
-              throw new Error(
-                `${streamCatalog.stream} requires that the following are selected: `
-              );
-            }
+        this.availableStreams.forEach((AvailableStream) => {
+          const availableStream = new AvailableStream(
+            this.config,
+            this.state,
+            null,
+            null
+          );
 
-            const toAdd = availableStream(
+          if (availableStream.matchesCatalog(streamCatalog)) {
+            // if (!availableStream.requirements_met(this.catalog)) {
+            //   throw new Error(
+            //     `${streamCatalog.stream} requires that the following are selected: `
+            //   );
+            // }
+
+            const toAdd = new AvailableStream(
               this.config,
               this.state,
               streamCatalog,
