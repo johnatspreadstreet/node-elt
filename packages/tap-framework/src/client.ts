@@ -43,7 +43,7 @@ export class BaseClient {
         throw new Error(response.statusText);
       }
 
-      return response;
+      return response.data;
     } catch (e) {
       throw new Error(e.response);
     }

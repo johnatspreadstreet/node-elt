@@ -1,8 +1,7 @@
 /* eslint-disable class-methods-use-this */
+import singer from '@node-elt/singer-js';
 import fs from 'fs';
 import { resolve } from 'path';
-import singer from '@node-elt/singer-js';
-import size from 'lodash/size';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import Logger from './logger';
@@ -90,11 +89,15 @@ export class BaseStream {
   // getClassPath() {}
 
   loadSchemaByName(name) {
-    console.log(name);
-    const pathToSchema = resolve(process.cwd(), 'schemas', `${name}.json`);
-    const schema = fs.readFileSync(pathToSchema);
+    const pathToSchema = resolve(
+      process.cwd(),
+      'src',
+      'schemas',
+      `${name}.json`
+    );
+    const schema = fs.readFileSync(pathToSchema, { encoding: 'utf-8' });
 
-    return schema;
+    return JSON.parse(schema);
   }
 
   getSchema() {
@@ -107,7 +110,14 @@ export class BaseStream {
 
   generateCatalog() {
     const schema = this.getSchema();
+
+    console.log(schema);
+
+    console.log(singer);
+
     const mdata = singer.metadata.write({}, [], 'inclusion', 'available');
+
+    console.log(mdata);
 
     return [
       {

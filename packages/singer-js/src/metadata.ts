@@ -1,6 +1,8 @@
 import get from 'lodash/get';
 import update from 'lodash/update';
 
+export const toList = (metadata) => {};
+
 export const write = (compiledMetadata, breadcrumb, k, val) => {
   if (!val) {
     throw new Error('val is required to write metadata');

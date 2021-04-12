@@ -3,8 +3,6 @@ import { saveState } from './state';
 import Logger from './logger';
 import { isSelected } from './streams';
 
-export * as streams from './streams';
-
 export function Runner(args, client, availableStreams) {
   return {
     config: args.config,
@@ -91,3 +89,6 @@ export function Runner(args, client, availableStreams) {
     },
   };
 }
+
+export * from './client';
+export * as streams from './streams';

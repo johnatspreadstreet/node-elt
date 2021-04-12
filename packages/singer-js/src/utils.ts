@@ -2,16 +2,7 @@
 /* eslint-disable import/no-dynamic-require */
 import { resolve } from 'path';
 import has from 'lodash/has';
-
-interface Parsed {
-  config?: string;
-  configPath?: string;
-  state?: any;
-  statePath?: string;
-  catalog?: string;
-  catalogPath?: string;
-  discover?: boolean;
-}
+import { Parsed } from './types';
 
 const checkConfig = (config, requiredKeys: string[]) => {
   requiredKeys.forEach((property) => {
