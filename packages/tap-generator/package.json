@@ -1,18 +1,18 @@
 {
   "name": "@node-elt/tap-generator",
-  "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "version": "1.0.0",
   "author": "",
-  "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
     "commander": "^7.2.0",
     "enquirer": "^2.3.6",
     "execa": "^4.1.0",
     "hygen": "^6.0.4"
+  },
+  "license": "ISC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

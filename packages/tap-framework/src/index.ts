@@ -49,8 +49,6 @@ export function Runner(args, client, availableStreams) {
     },
 
     doDiscover() {
-      Logger.info('Starting discovery.');
-
       const catalog = [];
 
       this.availableStreams.forEach((AvailableStream) => {
@@ -63,7 +61,7 @@ export function Runner(args, client, availableStreams) {
         streams: catalog,
       };
 
-      console.log(JSON.stringify(data));
+      process.stdout.write(JSON.stringify(data));
     },
 
     doSync() {

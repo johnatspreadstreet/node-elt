@@ -1,20 +1,8 @@
 {
   "name": "@node-elt/singer-js",
-  "version": "1.0.0",
   "description": "Singer framework implemented in Nodejs",
-  "main": "lib/",
+  "version": "1.0.0",
   "author": "@johnatspreadstreet",
-  "license": "ISC",
-  "scripts": {
-    "compile": "shx rm -rf lib/ && tsc",
-    "mocha": "mocha -r ts-node/register test/**/*.test.ts",
-    "prepare": "npm run compile",
-    "prepublishOnly": "npm run compile",
-    "pretest": "npm run compile",
-    "test": "npm run mocha",
-    "watch": "tsc -w"
-  },
-  "types": "lib/",
   "dependencies": {
     "axios": "^0.21.1",
     "dayjs": "^1.10.4",
@@ -34,5 +22,27 @@
     "shx": "^0.3.3",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.2"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "license": "ISC",
+  "main": "lib/",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "compile": "shx rm -rf lib/ && tsc",
+    "mocha": "mocha -r ts-node/register test/**/*.test.ts",
+    "prepare": "npm run compile",
+    "prepublishOnly": "npm run compile",
+    "pretest": "npm run compile",
+    "test": "npm run mocha",
+    "watch": "tsc -w"
+  },
+  "types": "lib/"
 }

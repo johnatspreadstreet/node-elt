@@ -1,14 +1,7 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "lib",
-    "declaration": true,
-    "declarationMap": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "outDir": "./lib"
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["test"]
+  "include": ["./src"]
 }

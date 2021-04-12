@@ -1,9 +1,9 @@
 /* eslint-disable class-methods-use-this */
-import singer from '@node-elt/singer-js';
 import fs from 'fs';
 import { resolve } from 'path';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
+import singer from '../../singer-js/lib';
 import Logger from './logger';
 
 type Inclusion = 'available' | 'automatic' | 'unsupported';
@@ -109,15 +109,7 @@ export class BaseStream {
   // }
 
   generateCatalog() {
-    const schema = this.getSchema();
-
-    console.log(schema);
-
-    console.log(singer);
-
     const mdata = singer.metadata.write({}, [], 'inclusion', 'available');
-
-    console.log(mdata);
 
     return [
       {
