@@ -16,7 +16,7 @@ export class BaseClient {
   }
 
   async makeRequest(url, method, baseBackoff = 45, params = null, body = null) {
-    Logger.info(`Making ${method} request to ${url}`);
+    Logger.debug(`Making ${method} request to ${url}`);
 
     const config = {
       method,

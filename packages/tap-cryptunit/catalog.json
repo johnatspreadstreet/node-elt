@@ -1,0 +1,45 @@
+{
+  "streams": [
+    {
+      "tap_stream_id": "algorithms",
+      "stream": "algorithms",
+      "key_properties": ["id"],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "shortname": { "type": "string" },
+          "shortname1": { "type": "string" },
+          "asic": { "type": "integer" }
+        },
+        "required": ["asic", "id", "name", "shortname", "shortname1"],
+        "title": "Algorithm"
+      },
+      "metadata": [
+        { "breadcrumb": [], "metadata": { "inclusion": "available" } },
+        {
+          "breadcrumb": ["properties", "id"],
+          "metadata": { "inclusion": "automatic" }
+        },
+        {
+          "breadcrumb": ["properties", "name"],
+          "metadata": { "inclusion": "available" }
+        },
+        {
+          "breadcrumb": ["properties", "shortname"],
+          "metadata": { "inclusion": "available" }
+        },
+        {
+          "breadcrumb": ["properties", "shortname1"],
+          "metadata": { "inclusion": "available" }
+        },
+        {
+          "breadcrumb": ["properties", "asic"],
+          "metadata": { "inclusion": "available" }
+        }
+      ]
+    }
+  ]
+}

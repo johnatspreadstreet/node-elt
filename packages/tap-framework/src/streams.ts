@@ -3,8 +3,10 @@ import fs from 'fs';
 import { resolve } from 'path';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
-import singer from '../../singer-js/lib';
+import { metadata } from '@node-elt/singer-js';
 import Logger from './logger';
+
+export const SPLIT_KEY = ':::';
 
 type Inclusion = 'available' | 'automatic' | 'unsupported';
 
@@ -34,8 +36,9 @@ interface StreamCatalog {
  * @param streamCatalog
  */
 export const isSelected = (streamCatalog: StreamCatalog) => {
-  const { metadata } = streamCatalog;
-  const streamMetadata: any = metadata.find((meta) => isEmpty(meta.breadcrumb));
+  const streamMetadata: any = streamCatalog.metadata.find((meta) =>
+    isEmpty(meta.breadcrumb)
+  );
 
   const { inclusion } = streamMetadata;
   const selected = get(streamMetadata, 'selected', null);
@@ -109,17 +112,31 @@ export class BaseStream {
   // }
 
   generateCatalog() {
-    const mdata = singer.metadata.write({}, [], 'inclusion', 'available');
+    const schema = this.getSchema();
+    let mdata = metadata.write([], '', 'inclusion', 'available');
 
-    return [
-      {
-        tap_stream_id: this.TABLE,
-        stream: this.TABLE,
-        key_properties: this.KEY_PROPERTIES,
-        schema: this.getSchema(),
-        metadata: singer.metadata.toList(mdata),
-      },
-    ];
+    for (const [fieldName, fieldSchema] of Object.entries(schema.properties)) {
+      let inclusion = 'available';
+
+      if (this.KEY_PROPERTIES.includes(fieldName)) {
+        inclusion = 'automatic';
+      }
+
+      mdata = metadata.write(
+        mdata,
+        `properties${SPLIT_KEY}${fieldName}`,
+        'inclusion',
+        inclusion
+      );
+    }
+
+    return {
+      tap_stream_id: this.TABLE,
+      stream: this.TABLE,
+      key_properties: this.KEY_PROPERTIES,
+      schema,
+      metadata: metadata.toList(mdata),
+    };
   }
 
   // transformRecord(record) {

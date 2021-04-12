@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { saveState } from './state';
 import Logger from './logger';
+import { saveState } from './state';
 import { isSelected } from './streams';
 
 export function Runner(args, client, availableStreams) {
@@ -19,7 +19,7 @@ export function Runner(args, client, availableStreams) {
 
       this.catalog.streams.forEach((streamCatalog) => {
         if (!isSelected(streamCatalog)) {
-          Logger.info(
+          Logger.debug(
             `${streamCatalog.stream} is not marked selected, skipping.`
           );
           return;
@@ -65,7 +65,7 @@ export function Runner(args, client, availableStreams) {
     },
 
     doSync() {
-      Logger.info('Starting sync.');
+      Logger.debug('Starting sync.');
 
       const errorPrefix = 'Runner [doSync] | ';
 
