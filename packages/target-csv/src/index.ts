@@ -72,31 +72,26 @@ const main = async (opts) => {
 
     const o = messages.parseMessage(msg);
 
-    if (types.includes(o.type)) {
-      const msgType = o.type;
+    const msgType = o.type;
 
-      if (msgType === 'RECORD') {
-        const record = get(o, 'record', null);
-        const streamName = get(o, 'stream', null);
+    if (msgType === 'RECORD') {
+      const record = get(o, 'record', null);
+      const streamName = get(o, 'stream', null);
 
-        const fileName = `${streamName}-${now}.csv`;
-        await write(fileName, 'test', record);
-      } else if (msgType === 'STATE') {
-        console.log('MESSAGE IS STATE', msg);
-        state = get(o, 'value', null);
-      } else if (msgType === 'SCHEMA') {
-        const stream = get(o, 'stream', null);
-        schemas[stream] = get(o, 'schema', null);
-        key_properties[stream] = get(o, 'key_properties', null);
-      } else {
-        console.warn(`Unknown message type`);
-      }
+      const fileName = `${streamName}-${now}.csv`;
+      await write(fileName, 'test', record);
+    } else if (msgType === 'STATE') {
+      console.log('MESSAGE IS STATE', msg);
+      state = get(o, 'value', null);
+    } else if (msgType === 'SCHEMA') {
+      const stream = get(o, 'stream', null);
+      schemas[stream] = get(o, 'schema', null);
+      key_properties[stream] = get(o, 'key_properties', null);
     } else {
-      // log.write(`${JSON.stringify(chunk)}\n`);
+      console.warn(`Unknown message type`);
     }
   }
 
-  console.log('hello');
   console.log(state);
 };
 
