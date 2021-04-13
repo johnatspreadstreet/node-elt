@@ -9,7 +9,7 @@ async function main(opts) {
   const errorPrefix = 'tap-cryptunit main | ';
 
   const args = singer.utils.parseArgs(opts, CONFIG_KEYS);
-  const client = new Client(args.config);
+  const client = Client(args.config);
   const runner = Runner(args, client, availableStreams);
 
   if (args.discover) {

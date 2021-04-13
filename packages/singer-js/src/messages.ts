@@ -110,6 +110,7 @@ export const writeSchema = (
     stream: streamAlias || streamName,
     schema,
     key_properties: keyProperties,
+    bookmark_properties: null,
   };
 
   if (bookmarkProperties) {

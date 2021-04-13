@@ -11,6 +11,14 @@ exports.Algorithms = class Algorithms extends BaseStream {
 
   RESPONSE_KEY = 'data';
 
+  getMethod() {
+    return this.API_METHOD;
+  }
+
+  getUrl() {
+    return `${this.BASE_URL}${this.PATH}`;
+  }
+
   responseKey() {
     return this.RESPONSE_KEY;
   }

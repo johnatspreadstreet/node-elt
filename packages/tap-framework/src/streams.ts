@@ -165,14 +165,16 @@ export class BaseStream {
 
     return this.syncData();
   }
-  // transformRecord(record) {
 
-  // }
+  transformRecord(record) {
+    return record;
+  }
 
-  syncData(substreams = []) {
+  async syncData(substreams = []) {
     const table = this.TABLE;
     const url = this.getUrl();
-    const result = this.client.makeRequest(url, this.API_METHOD);
+
+    const result = await this.client.makeRequest(url, this.API_METHOD);
     const data = this.getStreamData(result);
 
     data.forEach((obj, index) => {

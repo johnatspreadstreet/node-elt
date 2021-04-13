@@ -8,12 +8,16 @@ exports.BaseStream = class BaseStream extends streams.BaseStream {
   BASE_URL = 'https://www.cryptunit.com';
   //   syncPaginated(path, method) {}
 
-  syncData(path, method) {
+  async syncData() {
     const table = this.TABLE;
 
     Logger.info(`Syncing data for ${table}`);
 
-    const response = this.client.makeRequest(path, method);
+    const path = this.getUrl();
+    const method = this.getMethod();
+
+    const response = await this.client.makeRequest(path, method);
+
     const transformed = this.getStreamData(response);
 
     singer.messages.writeRecords(table, transformed);

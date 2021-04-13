@@ -37,7 +37,7 @@
   "main": "src/",
   "scripts": {
     "discover": "node ./bin/tap-cryptunit.js --discover > catalog.json",
-    "sync": "node ./bin/tap-cryptunit.js --config config.json --catalog catalog.json",
+    "sync": "node ./bin/tap-cryptunit.js --config config.json --catalog catalog.json | pino-pretty",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "gitHead": "959b61004987bd60cf8fa786cebd69bc78876e3b",
