@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "name": {
+      "type": "string"
+    },
+    "ticker": {
+      "type": "string"
+    },
+    "logo": {
+      "type": "string"
+    },
+    "algo_id": {
+      "type": "number"
+    },
+    "cryptunit_color": {
+      "type": "string"
+    }
+  },
+  "required": ["id", "name", "ticker", "logo", "algo_id", "cryptunit_color"]
+}

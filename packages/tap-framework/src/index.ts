@@ -22,9 +22,9 @@ export function Runner(args, client, availableStreams) {
 
       this.catalog.streams.forEach((streamCatalog) => {
         if (!isSelected(streamCatalog)) {
-          Logger.info(
-            `${streamCatalog.stream} is not marked selected, skipping.`
-          );
+          // Logger.info(
+          //   `${streamCatalog.stream} is not marked selected, skipping.`
+          // );
           return;
         }
 

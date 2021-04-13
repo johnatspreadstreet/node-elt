@@ -159,7 +159,7 @@ export class BaseStream {
   }
 
   sync() {
-    Logger.info(`Syncing stream ${this.catalog.tap_stream_id}`);
+    // Logger.info(`Syncing stream ${this.catalog.tap_stream_id}`);
 
     this.writeSchema();
 
@@ -178,7 +178,7 @@ export class BaseStream {
     const data = this.getStreamData(result);
 
     data.forEach((obj, index) => {
-      Logger.info(`On ${index} of ${size(data)}`);
+      // Logger.info(`On ${index} of ${size(data)}`);
       // messages.writeRecords();
     });
   }

@@ -19,7 +19,8 @@ export const writeMessage = (message) => {
   const errorPrefix = 'Messages [writeMessage] | ';
 
   if (isValidJSONString(message)) {
-    process.stdout.write(message);
+    // process.stdout.write(message);
+    console.log(message);
   }
 
   try {
@@ -28,7 +29,8 @@ export const writeMessage = (message) => {
     throw new Error(`${errorPrefix} failed converting message to JSON.`);
   }
 
-  process.stdout.write(JSON.stringify(message));
+  // process.stdout.write(JSON.stringify(message));
+  console.log(JSON.stringify(message));
 };
 
 /**

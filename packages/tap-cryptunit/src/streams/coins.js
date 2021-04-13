@@ -1,13 +1,13 @@
 const { BaseStream } = require('./base');
 
-exports.Algorithms = class Algorithms extends BaseStream {
+exports.Coins = class Coins extends BaseStream {
   API_METHOD = 'GET';
 
-  TABLE = 'algorithms';
+  TABLE = 'coins';
 
   KEY_PROPERTIES = ['id'];
 
-  PATH = '/api/algorithms';
+  PATH = '/api/coins';
 
   RESPONSE_KEY = 'data';
 

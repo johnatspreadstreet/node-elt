@@ -10,7 +10,7 @@ export const BaseClient = (config) => ({
   },
 
   async makeRequest(url, method, baseBackoff = 45, params = null, body = null) {
-    Logger.info(`Making ${method} request to ${url}`);
+    // Logger.info(`Making ${method} request to ${url}`);
 
     const config = {
       method,
