@@ -8,36 +8,62 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "integer" },
-          "name": { "type": "string" },
-          "shortname": { "type": "string" },
-          "shortname1": { "type": "string" },
-          "asic": { "type": "integer" }
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "shortname": {
+            "type": "string"
+          },
+          "shortname1": {
+            "type": "string"
+          },
+          "asic": {
+            "type": "integer"
+          }
         },
         "required": ["asic", "id", "name", "shortname", "shortname1"],
         "title": "Algorithm"
       },
       "metadata": [
-        { "breadcrumb": [], "metadata": { "inclusion": "available" } },
+        {
+          "breadcrumb": [],
+          "metadata": {
+            "inclusion": "available",
+            "selected": true
+          }
+        },
         {
           "breadcrumb": ["properties", "id"],
-          "metadata": { "inclusion": "automatic" }
+          "metadata": {
+            "inclusion": "automatic"
+          }
         },
         {
           "breadcrumb": ["properties", "name"],
-          "metadata": { "inclusion": "available" }
+          "metadata": {
+            "inclusion": "available"
+          }
         },
         {
           "breadcrumb": ["properties", "shortname"],
-          "metadata": { "inclusion": "available" }
+          "metadata": {
+            "inclusion": "available"
+          }
         },
         {
           "breadcrumb": ["properties", "shortname1"],
-          "metadata": { "inclusion": "available" }
+          "metadata": {
+            "inclusion": "available"
+          }
         },
         {
           "breadcrumb": ["properties", "asic"],
-          "metadata": { "inclusion": "available" }
+          "metadata": {
+            "inclusion": "available"
+          }
         }
       ]
     },
@@ -48,12 +74,24 @@
       "schema": {
         "type": "object",
         "properties": {
-          "id": { "type": "number" },
-          "name": { "type": "string" },
-          "ticker": { "type": "string" },
-          "logo": { "type": "string" },
-          "algo_id": { "type": "number" },
-          "cryptunit_color": { "type": "string" }
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "ticker": {
+            "type": "string"
+          },
+          "logo": {
+            "type": "string"
+          },
+          "algo_id": {
+            "type": "number"
+          },
+          "cryptunit_color": {
+            "type": "string"
+          }
         },
         "required": [
           "id",
@@ -65,30 +103,48 @@
         ]
       },
       "metadata": [
-        { "breadcrumb": [], "metadata": { "inclusion": "available" } },
+        {
+          "breadcrumb": [],
+          "metadata": {
+            "inclusion": "available",
+            "selected": true
+          }
+        },
         {
           "breadcrumb": ["properties", "id"],
-          "metadata": { "inclusion": "automatic" }
+          "metadata": {
+            "inclusion": "automatic"
+          }
         },
         {
           "breadcrumb": ["properties", "name"],
-          "metadata": { "inclusion": "available" }
+          "metadata": {
+            "inclusion": "available"
+          }
         },
         {
           "breadcrumb": ["properties", "ticker"],
-          "metadata": { "inclusion": "available" }
+          "metadata": {
+            "inclusion": "available"
+          }
         },
         {
           "breadcrumb": ["properties", "logo"],
-          "metadata": { "inclusion": "available" }
+          "metadata": {
+            "inclusion": "available"
+          }
         },
         {
           "breadcrumb": ["properties", "algo_id"],
-          "metadata": { "inclusion": "available" }
+          "metadata": {
+            "inclusion": "available"
+          }
         },
         {
           "breadcrumb": ["properties", "cryptunit_color"],
-          "metadata": { "inclusion": "available" }
+          "metadata": {
+            "inclusion": "available"
+          }
         }
       ]
     }

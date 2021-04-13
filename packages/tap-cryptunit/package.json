@@ -39,8 +39,8 @@
   "license": "ISC",
   "main": "src/",
   "scripts": {
-    "discover": "node ./bin/tap-cryptunit.js --discover > catalog.json",
-    "dry": "node ./bin/tap-cryptunit.js --config config.json --catalog catalog.json | node ./src/transport.js",
+    "discover": "node ./bin/tap-cryptunit.js --discover",
+    "dry": "node ./bin/tap-cryptunit.js --config config.json --catalog catalog.json | node ../target-csv/lib/target-csv.js",
     "sync": "node ./bin/tap-cryptunit.js --config config.json --catalog catalog.json | pino-pretty",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

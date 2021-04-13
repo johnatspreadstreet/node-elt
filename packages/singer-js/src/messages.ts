@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import get from 'lodash/get';
+import hasIn from 'lodash/hasIn';
 
 const isValidJSONString = (str) => {
   try {
@@ -14,6 +16,117 @@ export const stateMessage = (value) => ({
   type: 'STATE',
   value,
 });
+
+const _requiredKey = (msg, k) => {
+  const has = hasIn(msg, k);
+
+  if (!has) {
+    throw new Error(`Message is missing required key ${k}`);
+  }
+
+  return msg[k];
+};
+
+const RecordMessage = (
+  stream,
+  record,
+  version = null,
+  time_extracted = null
+) => {
+  const result = {
+    type: 'RECORD',
+    stream,
+    record,
+    version: null,
+    time_extracted: null,
+  };
+
+  if (version) {
+    result.version = version;
+  }
+
+  if (time_extracted) {
+    const asUtc = dayjs(time_extracted).format();
+    result.time_extracted = asUtc;
+  }
+
+  return result;
+};
+
+const SchemaMessage = (stream, schema, key_properties, bookmark_properties) => {
+  const result = {
+    type: 'SCHEMA',
+    stream,
+    schema,
+    key_properties,
+    bookmark_properties,
+  };
+
+  if (bookmark_properties) {
+    result.bookmark_properties = bookmark_properties;
+  }
+
+  return result;
+};
+
+const StateMessage = (value) => ({
+  type: 'STATE',
+  value,
+});
+
+const ActivateVersionMessage = (stream, version) => ({
+  type: 'ACTIVATE_VERSION',
+  stream,
+  version,
+});
+
+export const parseMessage = (message) => {
+  let obj = message;
+
+  if (isValidJSONString(message)) {
+    obj = JSON.parse(message);
+  }
+  const msgType = _requiredKey(obj, 'type');
+
+  if (msgType === 'RECORD') {
+    let timeExtracted = get(obj, 'time_extracted');
+
+    if (timeExtracted) {
+      try {
+        timeExtracted = dayjs(timeExtracted).format();
+      } catch (e) {
+        timeExtracted = null;
+      }
+    }
+
+    const stream = _requiredKey(obj, 'stream');
+    const record = _requiredKey(obj, 'record');
+    const version = get(obj, 'version', null);
+    return RecordMessage(stream, record, version, timeExtracted);
+  }
+
+  if (msgType === 'SCHEMA') {
+    return SchemaMessage(
+      _requiredKey(obj, 'stream'),
+      _requiredKey(obj, 'schema'),
+      _requiredKey(obj, 'key_properties'),
+      get(obj, 'bookmark_properties', null)
+    );
+  }
+
+  if (msgType === 'STATE') {
+    return StateMessage(_requiredKey(obj, 'value'));
+  }
+
+  if (msgType === 'ACTIVATE_VERSION') {
+    return ActivateVersionMessage(
+      _requiredKey(obj, 'stream'),
+      _requiredKey(obj, 'version')
+    );
+  }
+
+  return null;
+};
 
 export const writeMessage = (message) => {
   const errorPrefix = 'Messages [writeMessage] | ';

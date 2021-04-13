@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+import fs from 'fs';
+import { resolve } from 'path';
 import Logger from './logger';
 import { saveState } from './state';
 import { isSelected } from './streams';
@@ -71,7 +73,9 @@ export function Runner(args, client, availableStreams) {
         streams: catalog,
       };
 
-      process.stdout.write(JSON.stringify(data));
+      const pathToCatalog = resolve(process.cwd(), 'catalog.json');
+      fs.writeFileSync(pathToCatalog, JSON.stringify(data, null, 2));
+      // process.stdout.write(JSON.stringify(data));
     },
 
     doSync() {

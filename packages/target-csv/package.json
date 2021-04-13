@@ -1,17 +1,27 @@
 {
-  "name": "@node-elt/tap-framework",
+  "name": "@node-elt/target-csv",
   "description": "",
   "version": "1.0.2",
   "author": "",
+  "bin": {
+    "target-csv": "./src/target-csv.ts"
+  },
   "dependencies": {
+    "@fast-csv/format": "^4.3.5",
     "@feathersjs/errors": "^4.5.11",
     "@node-elt/singer-js": "^1.0.2",
     "axios": "^0.21.1",
+    "commander": "^7.2.0",
+    "csv": "^5.5.0",
     "dayjs": "^1.10.4",
+    "fast-csv": "^4.3.6",
     "fs-extra": "^9.1.0",
+    "json2csv": "^5.0.6",
     "lodash": "^4.17.21",
     "pino": "^6.11.2",
-    "quicktype-core": "^6.0.70",
+    "pump": "^3.0.0",
+    "split2": "^3.2.2",
+    "through2": "^4.0.2",
     "to-json-schema": "^0.2.5"
   },
   "devDependencies": {

@@ -12,9 +12,9 @@ const splitToFile = through.obj((chunk, enc, cb) => {
   const log = fs.createWriteStream(pathToLogs, { flags: 'a' });
 
   if (types.includes(chunk.type)) {
-    console.log(chunk);
+    console.log(typeof chunk);
   } else {
-    log.write(`${JSON.stringify(chunk)}\n`);
+    // log.write(`${JSON.stringify(chunk)}\n`);
   }
   cb();
 });

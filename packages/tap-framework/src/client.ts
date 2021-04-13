@@ -1,10 +1,14 @@
 import axios from 'axios';
+import { asyncErrorHandler, axiosErrorHandler } from './error-handler';
 import Logger from './logger';
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 export const BaseClient = (config) => ({
   config,
+  validateStatus(status) {
+    return status >= 200 && status < 300;
+  },
   getAuthorization() {
     throw new Error('getAuthorization not implemented!');
   },
@@ -33,13 +37,14 @@ export const BaseClient = (config) => ({
         return this.makeRequest(url, method, baseBackoff * 2, params, body);
       }
 
-      if (response.status !== 200) {
-        throw new Error(response.statusText);
+      if (!this.validateStatus(response.status)) {
+        return axiosErrorHandler(response);
       }
 
       return response;
     } catch (e) {
-      throw new Error(e.response);
+      Logger.error({ e, config });
+      return axiosErrorHandler(e);
     }
   },
 });

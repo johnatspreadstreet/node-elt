@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const { BaseStream } = require('./base');
 
 exports.Algorithms = class Algorithms extends BaseStream {
@@ -7,7 +8,7 @@ exports.Algorithms = class Algorithms extends BaseStream {
 
   KEY_PROPERTIES = ['id'];
 
-  PATH = '/api/algorithms';
+  PATH = '/api/algos';
 
   RESPONSE_KEY = 'data';
 
@@ -16,7 +17,9 @@ exports.Algorithms = class Algorithms extends BaseStream {
   }
 
   getUrl() {
-    return `${this.BASE_URL}${this.PATH}`;
+    const url = `${this.BASE_URL}${this.PATH}`;
+
+    return url;
   }
 
   responseKey() {

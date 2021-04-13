@@ -24,19 +24,19 @@ function execShellCommand(cmd) {
 
 async function fullClean() {
   // Step 1: Remove Node Modules
-  console.log("Removing node modules...")
+  console.log('Removing node modules...');
   await execShellCommand('rm -rf node_modules/');
 
   // Step 2: Remove package-lock.json
-  console.log("Removing package-lock...")
+  console.log('Removing package-lock...');
   await execShellCommand('rm -rf package-lock.json');
 
   // Install prerequisites
-  console.log("Installing pre-requisites...")
+  console.log('Installing pre-requisites...');
   await execShellCommand('npm i -g execa yargs ora');
 
   // Step 3: Run `yarn`
-  console.log("Installing packages...")
+  console.log('Installing packages...');
   await execShellCommand('npm i');
 }
 
