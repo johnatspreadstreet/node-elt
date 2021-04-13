@@ -44,7 +44,13 @@ const flatten = function (data, delimiter = '.') {
   return result;
 };
 
-const persistMessages = (delimiter, quotechar, messages, destinationPath) => {};
+const persistRecord = async (o, timestamp) => {
+  const record = get(o, 'record', null);
+  const streamName = get(o, 'stream', null);
+
+  const fileName = `${streamName}-${timestamp}.csv`;
+  await write(fileName, 'test', flatten(record));
+};
 
 const sendUsageStats = () => {};
 
@@ -74,21 +80,22 @@ const main = async (opts) => {
 
     const msgType = o.type;
 
-    if (msgType === 'RECORD') {
-      const record = get(o, 'record', null);
-      const streamName = get(o, 'stream', null);
+    switch (msgType) {
+      case 'RECORD':
+        await persistRecord(o, now);
+        break;
+      case 'STATE':
+        state = get(o, 'value', null);
+        break;
+      case 'SCHEMA':
+        const stream = get(o, 'stream', null);
+        schemas[stream] = get(o, 'schema', null);
+        key_properties[stream] = get(o, 'key_properties', null);
+        break;
 
-      const fileName = `${streamName}-${now}.csv`;
-      await write(fileName, 'test', record);
-    } else if (msgType === 'STATE') {
-      console.log('MESSAGE IS STATE', msg);
-      state = get(o, 'value', null);
-    } else if (msgType === 'SCHEMA') {
-      const stream = get(o, 'stream', null);
-      schemas[stream] = get(o, 'schema', null);
-      key_properties[stream] = get(o, 'key_properties', null);
-    } else {
-      console.warn(`Unknown message type`);
+      default:
+        console.warn('Unknown message type');
+        break;
     }
   }
 
