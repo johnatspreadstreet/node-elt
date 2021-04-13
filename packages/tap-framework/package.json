@@ -6,6 +6,7 @@
   "dependencies": {
     "@node-elt/singer-js": "^1.0.2",
     "axios": "^0.21.1",
+    "dayjs": "^1.10.4",
     "fs-extra": "^9.1.0",
     "lodash": "^4.17.21",
     "pino": "^6.11.2",

@@ -17,7 +17,10 @@
     "lodash": "^4.17.21",
     "pino": "^6.11.2",
     "pino-pretty": "^4.7.1",
-    "quicktype-core": "^6.0.70"
+    "pump": "^3.0.0",
+    "quicktype-core": "^6.0.70",
+    "split2": "^3.2.2",
+    "through2": "^2.0.5"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
@@ -37,6 +40,7 @@
   "main": "src/",
   "scripts": {
     "discover": "node ./bin/tap-cryptunit.js --discover > catalog.json",
+    "dry": "node ./bin/tap-cryptunit.js --config config.json --catalog catalog.json | node ./src/transport.js",
     "sync": "node ./bin/tap-cryptunit.js --config config.json --catalog catalog.json | pino-pretty",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

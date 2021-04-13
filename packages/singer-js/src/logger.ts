@@ -1,13 +1,11 @@
-const fs = require('fs');
-const { resolve } = require('path');
-const pinoms = require('pino-multi-stream');
+const split = require('split2');
+const pump = require('pump');
+const through = require('through2');
 
-const streams = [
-  { stream: process.stdout },
-  {
-    level: 'info',
-    stream: fs.createWriteStream(resolve(process.cwd(), 'logging.json')),
-  },
-];
+const myTransport = through.obj((chunk, enc, cb) => {
+  // do the necessary
+  console.log(chunk);
+  cb();
+});
 
-export const Logger = pinoms(streams);
+pump(process.stdin, split(JSON.parse), myTransport);
