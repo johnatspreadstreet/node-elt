@@ -5,13 +5,7 @@ const json2csv = require('json2csv').parse;
 export const write = async (fileName, fields, data) => {
   // output file in the same folder
   const filename = path.join(process.cwd(), `${fileName}`);
-  const definitelyPosix = filename.split(path.sep).join(path.posix.sep);
 
-  // console.log(definitelyPosix);
-
-  // console.log(fs);
-
-  //   await fs.promises.mkdir(filename, { recursive: true });
   let rows;
   // If file doesn't exist, we will create new file and add rows with headers.
   if (!fs.existsSync(filename)) {

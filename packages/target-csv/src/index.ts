@@ -48,28 +48,14 @@ const persistMessages = (delimiter, quotechar, messages, destinationPath) => {};
 
 const sendUsageStats = () => {};
 
-async function* stdin() {
-  const rl = readline.createInterface({ input: process.stdin });
-  const lines = [];
-  let resolve;
-  let promise = new Promise((r) => (resolve = r));
-  let close;
-
-  rl.on('line', (line) => {
-    lines.push(line);
-    resolve();
-  });
-
-  while (!close) {
-    await promise;
-    close = ((yield lines.pop()) || {}).close;
-    if (!lines.length) promise = new Promise((r) => (resolve = r));
-  }
-
-  rl.close();
-}
+const rl = readline.createInterface({
+  input: process.stdin,
+  // output: process.stdout,
+});
 
 const main = async (opts) => {
+  const now = dayjs().unix();
+
   const config = {};
   if (opts.config) {
     // Handle config options here
@@ -80,9 +66,8 @@ const main = async (opts) => {
   const key_properties = {};
   const headers = {};
   const validators = {};
-  const csvStreams = {};
 
-  for await (const msg of stdin()) {
+  for await (const msg of rl) {
     const types = ['RECORD', 'SCHEMA', 'STATE'];
 
     const o = messages.parseMessage(msg);
@@ -93,24 +78,11 @@ const main = async (opts) => {
       if (msgType === 'RECORD') {
         const record = get(o, 'record', null);
         const streamName = get(o, 'stream', null);
-        const now = dayjs().unix();
 
         const fileName = `${streamName}-${now}.csv`;
         await write(fileName, 'test', record);
-
-        // if (csvFile) {
-        //   // File exists, append
-        //   // await csvFile.append([record]);
-        // } else {
-        //   const pathToFile = resolve(process.cwd(), fileName);
-        //   csvStreams[fileName] = Csv({
-        //     path: pathToFile,
-        //     headers: Object.keys(record),
-        //   });
-        //   console.log(csvStreams[fileName]);
-        //   await csvStreams[fileName].create([record]);
-        // }
       } else if (msgType === 'STATE') {
+        console.log('MESSAGE IS STATE', msg);
         state = get(o, 'value', null);
       } else if (msgType === 'SCHEMA') {
         const stream = get(o, 'stream', null);
@@ -123,6 +95,9 @@ const main = async (opts) => {
       // log.write(`${JSON.stringify(chunk)}\n`);
     }
   }
+
+  console.log('hello');
+  console.log(state);
 };
 
 export default main;
