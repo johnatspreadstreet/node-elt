@@ -1,0 +1,53 @@
+id,name,shortname,shortname1,asic
+1,Cryptonight,normal,CN,1
+2,Cryptonight Lite,lite,CN Lite,1
+3,Cryptonight V7,normalV7,CN V7,0
+4,Cryptonight Lite V7,liteV7,CN Lite V7,0
+5,Cryptonight Heavy,heavy,CN Heavy,0
+6,Cryptonight Haven,haven,CN Haven,0
+7,Cryptonight Fast,fast,CN Fast,0
+8,Cryptonight BitTube V2,bittubeV2,CN BitTube V2,0
+9,Cryptonight StelliteV4,stelliteV4,CN Stellite V4,0
+10,Cryptonight ArtoCash,artocash,CN Arto,0
+11,Cryptonight Alloy,alloy,CN Alloy,0
+12,Cryptonight B2N,b2n,CN B2N,0
+13,Cryptonight MarketCash,marketcash,CN Market,0
+15,Cryptonight Italo,italo,CN Italo,0
+16,Cryptonight WebChain,wchain,CN WChain,0
+17,Cryptonight V8,normalV8,CN V8,0
+18,Cryptonight Swap,swap,CN Swap,0
+19,Cryptonight Upx,upx,CN Upx,0
+20,Cryptonight Turtle,trtl,CN Turtle,0
+21,Cryptonight Fast V2,fast2,CN Fast2,0
+22,Cryptonight GPU,gpu,CN GPU,0
+23,Cryptonight Conceal,cceal,CN Conceal,0
+24,Cryptonight Graft,graft,CN Graft,0
+25,Cryptonight R,cnR,CN R,0
+26,Cryptonight WOW,cnWow,CN WOW,0
+27,Cryptonight HeavyX,heavyX,CN HeavyX,0
+28,Cryptonight StelliteV5,stelliteV5,CN Stellite V5,0
+29,Random WOW,rXWow,RND WOW,0
+30,RandomXL,rXL,RND XL,0
+31,RandomX,rX,RND X,0
+32,Cryptonight DefyX,DfX,CN DefyX,0
+33,Argon2 Chukwa,ArgChukwa,Arg Chukwa,0
+34,Cryptonight Zum,ZumLite,CN Zum,0
+35,Random ARQ,rARQ,RND ARQ,0
+36,Random SFX,rSFX,RND SFX,0
+37,RandomV,rV,RND V,0
+38,Cuckaroo29s,C29s,C29s,0
+39,Cuckarood29v,Cd29v,Cd29v,0
+40,Kangaroo12,K12,K12,0
+41,AstroBWT,astrobwt,astrobwt,0
+42,Random EVO,rEVO,RND EVO,0
+43,Cryptonight ZLS,zls,CN ZLS,0
+44,Argon2 Ninja,ArgNinja,Arg Ninja,0
+45,Cryptonight Adaptive,CNAdaptive,CNAdaptive,0
+46,Cryptonight Dynamic,CNDynamic,CNDynamic,0
+47,Wild Keccak,WKeccak,WKeccak,0
+48,ProgPowZ,PPowZ,PPowZ,0
+49,Argon2 Pengo,ArgPengo,Arg Pengo,0
+50,Cuckarood29b,Cd29b,C29b,0
+51,Argon2 Chukwa v2,ArgChukwa2,Arg Chukwa v2,0
+52,Panthera,Panthera,Panthera,0
+53,Cryptonight Cache,CNCache,Cache,0

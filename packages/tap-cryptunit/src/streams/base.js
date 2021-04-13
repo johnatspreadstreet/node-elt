@@ -11,7 +11,7 @@ exports.BaseStream = class BaseStream extends streams.BaseStream {
   async syncData() {
     const table = this.TABLE;
 
-    Logger.info(`Syncing data for ${table}`);
+    // Logger.info(`Syncing data for ${table}`);
 
     const path = this.getUrl();
     const method = this.getMethod();
