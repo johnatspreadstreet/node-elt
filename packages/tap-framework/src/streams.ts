@@ -65,6 +65,8 @@ export class BaseStream {
 
   REQUIRES = [];
 
+  RESPONSE_KEY = 'data';
+
   config;
 
   state;
@@ -83,12 +85,20 @@ export class BaseStream {
     this.substreams = [];
   }
 
-  getUrl() {
-    return null;
+  responseKey() {
+    return this.RESPONSE_KEY;
   }
 
-  getStreamData(result) {
-    return null;
+  getMethod() {
+    throw new Error(
+      `getMethod has not been implemented. Please enter a method into the stream.`
+    );
+  }
+
+  getUrl() {
+    throw new Error(
+      `getUrl has not been implemented. Please enter a URL into the stream.`
+    );
   }
 
   // getClassPath() {}
@@ -158,7 +168,9 @@ export class BaseStream {
   }
 
   sync() {
-    // Logger.info(`Syncing stream ${this.catalog.tap_stream_id}`);
+    Logger.info(
+      `Syncing stream ${this.catalog.tap_stream_id} with ${this.constructor.name}`
+    );
 
     this.writeSchema();
 
@@ -169,16 +181,30 @@ export class BaseStream {
     return record;
   }
 
-  async syncData(substreams = []) {
-    const table = this.TABLE;
-    const url = this.getUrl();
+  getStreamData(response) {
+    const transformed = [];
 
-    const result = await this.client.makeRequest(url, this.API_METHOD);
-    const data = this.getStreamData(result);
-
-    data.forEach((obj, index) => {
-      // Logger.info(`On ${index} of ${size(data)}`);
-      // messages.writeRecords();
+    const responseKey = this.responseKey();
+    response[responseKey].forEach((datum) => {
+      const record = this.transformRecord(datum);
+      transformed.push(record);
     });
+
+    return transformed;
+  }
+
+  async syncData() {
+    const table = this.TABLE;
+
+    const path = this.getUrl();
+    const method = this.getMethod();
+
+    const response = await this.client.makeRequest(path, method);
+
+    const transformed = this.getStreamData(response);
+
+    messages.writeRecords(table, transformed);
+
+    return this.state;
   }
 }

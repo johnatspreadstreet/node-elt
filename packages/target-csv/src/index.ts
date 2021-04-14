@@ -5,11 +5,27 @@
 /* eslint-disable no-restricted-globals */
 import readline from 'readline';
 import dayjs from 'dayjs';
-import { messages } from '@node-elt/singer-js';
+import { messages, Logger } from '@node-elt/singer-js';
 import get from 'lodash/get';
 import { write } from './csv2';
 
-const emitState = (state) => {};
+const { isValidJSONString } = messages;
+
+const emitState = (state) => {
+  if (state) {
+    if (isValidJSONString(state)) {
+      console.log(state);
+      return;
+    }
+
+    try {
+      const msg = JSON.stringify(state);
+      console.log(msg);
+    } catch (e) {
+      throw new Error('State value not in proper format. Exiting.');
+    }
+  }
+};
 
 // @ts-ignore
 const isDate = (d) => d instanceof Date && !isNaN(d);
@@ -73,7 +89,7 @@ const main = async (opts) => {
     const types = ['RECORD', 'SCHEMA', 'STATE', 'ACTIVATE_VERSION'];
 
     if (!types.includes(msg.type)) {
-      console.log(msg);
+      // Logger.info(msg);
     } else {
       const o = messages.parseMessage(msg);
 
@@ -81,7 +97,7 @@ const main = async (opts) => {
 
       switch (msgType) {
         case 'RECORD':
-          await persistRecord(o, now);
+          // await persistRecord(o, now);
           break;
         case 'STATE':
           state = get(o, 'value', null);
@@ -100,7 +116,7 @@ const main = async (opts) => {
     }
   }
 
-  console.log(state);
+  emitState(state);
 };
 
 export default main;

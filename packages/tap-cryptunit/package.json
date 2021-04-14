@@ -40,7 +40,7 @@
   "main": "src/",
   "scripts": {
     "discover": "node ./bin/tap-cryptunit.js --discover",
-    "dry": "node ./bin/tap-cryptunit.js --config config.json --catalog catalog.json | node ../target-csv/lib/target-csv.js",
+    "dry": "node ./bin/tap-cryptunit.js --config config.json --catalog catalog.json | node ../target-csv/lib/target-csv.js >> state.json",
     "sync": "node ./bin/tap-cryptunit.js --config config.json --catalog catalog.json | pino-pretty",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

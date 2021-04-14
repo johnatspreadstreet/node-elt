@@ -1,17 +1,17 @@
+const last = require('lodash/last');
 const singer = require('@node-elt/singer-js');
-const { streams } = require('@node-elt/tap-framework');
+const { streams, state } = require('@node-elt/tap-framework');
 const Logger = require('../logger');
 
 exports.BaseStream = class BaseStream extends streams.BaseStream {
   KEY_PROPERTIES = ['id'];
 
   BASE_URL = 'https://www.cryptunit.com';
-  //   syncPaginated(path, method) {}
 
   async syncData() {
     const table = this.TABLE;
 
-    // Logger.info(`Syncing data for ${table}`);
+    Logger.info(`Syncing data for ${table}`);
 
     const path = this.getUrl();
     const method = this.getMethod();
@@ -21,6 +21,14 @@ exports.BaseStream = class BaseStream extends streams.BaseStream {
     const transformed = this.getStreamData(response);
 
     singer.messages.writeRecords(table, transformed);
+
+    if (transformed.length > 0) {
+      const lastRecord = last(transformed);
+      const lastId = lastRecord.id;
+      this.state = state.incorporate(this.state, table, 'last_id', lastId);
+    }
+
+    state.saveState(this.state);
 
     return this.state;
   }

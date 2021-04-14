@@ -6,6 +6,7 @@ import { saveState } from './state';
 import { isSelected } from './streams';
 
 export * from './client';
+export * as state from './state';
 export * as streams from './streams';
 
 export function Runner(args, client, availableStreams) {
@@ -75,7 +76,6 @@ export function Runner(args, client, availableStreams) {
 
       const pathToCatalog = resolve(process.cwd(), 'catalog.json');
       fs.writeFileSync(pathToCatalog, JSON.stringify(data, null, 2));
-      // process.stdout.write(JSON.stringify(data));
     },
 
     doSync() {

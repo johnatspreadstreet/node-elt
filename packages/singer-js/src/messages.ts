@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import get from 'lodash/get';
 import hasIn from 'lodash/hasIn';
 
-const isValidJSONString = (str) => {
+export const isValidJSONString = (str) => {
   try {
     JSON.parse(str);
   } catch (e) {
@@ -11,11 +11,6 @@ const isValidJSONString = (str) => {
 
   return true;
 };
-
-export const stateMessage = (value) => ({
-  type: 'STATE',
-  value,
-});
 
 const _requiredKey = (msg, k) => {
   const has = hasIn(msg, k);
@@ -132,18 +127,16 @@ export const writeMessage = (message) => {
   const errorPrefix = 'Messages [writeMessage] | ';
 
   if (isValidJSONString(message)) {
-    // process.stdout.write(message);
     console.log(message);
+    return;
   }
 
   try {
-    JSON.stringify(message);
+    const json = JSON.stringify(message);
+    console.log(json);
   } catch (e) {
     throw new Error(`${errorPrefix} failed converting message to JSON.`);
   }
-
-  // process.stdout.write(JSON.stringify(message));
-  console.log(JSON.stringify(message));
 };
 
 /**
@@ -202,7 +195,7 @@ export const writeRecords = (streamName, records) => {
 };
 
 export const writeState = (value) => {
-  writeMessage(stateMessage(value));
+  writeMessage(StateMessage(value));
 };
 
 /**
