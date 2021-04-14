@@ -1,7 +1,7 @@
 {
   "name": "@node-elt/target-csv",
   "description": "",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "author": "",
   "bin": {
     "target-csv": "./lib/target-csv.js"
