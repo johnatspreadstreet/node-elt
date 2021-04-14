@@ -4,7 +4,7 @@
   "version": "1.1.0",
   "author": "",
   "bin": {
-    "cryptunit": "./bin/tap-cryptunit.js"
+    "tap-cryptunit": "./bin/tap-cryptunit.js"
   },
   "dependencies": {
     "@node-elt/singer-js": "^1.1.0",
