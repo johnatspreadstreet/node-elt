@@ -15,7 +15,6 @@ commander
     '--catalog <filename>',
     'CATALOG is an optional argument pointing to a JSON file that the Tap can use to filter which streams should be synced.'
   )
-  .option('--generate', 'GENERATE generates schema files from config file')
   .option('--discover', 'DISCOVER Do schema discovery')
   .parse(process.argv);
 

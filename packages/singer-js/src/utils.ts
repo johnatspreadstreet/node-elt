@@ -32,6 +32,10 @@ export const parseArgs = (args, requiredKeys) => {
     parsed.catalog = require(resolve(process.cwd(), args.catalog));
   }
 
+  if (args.generate) {
+    parsed.generate = true;
+  }
+
   if (args.discover) {
     parsed.discover = true;
   }

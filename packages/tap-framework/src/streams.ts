@@ -123,7 +123,7 @@ export class BaseStream {
   //   return streamCatalog.stream === cls.TABLE;
   // }
 
-  generateCatalog() {
+  generateCatalog(splitKey = SPLIT_KEY) {
     const schema = this.getSchema();
     let mdata = metadata.write([], '', 'inclusion', 'available');
 
@@ -136,7 +136,7 @@ export class BaseStream {
 
       mdata = metadata.write(
         mdata,
-        `properties${SPLIT_KEY}${fieldName}`,
+        `properties${splitKey}${fieldName}`,
         'inclusion',
         inclusion
       );

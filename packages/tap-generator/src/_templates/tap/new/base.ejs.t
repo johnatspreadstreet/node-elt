@@ -1,3 +1,6 @@
+---
+to: tap-<%=name%>/src/streams/base.js
+---
 /* eslint-disable class-methods-use-this */
 const fs = require('fs');
 const { resolve } = require('path');
@@ -10,7 +13,7 @@ const { Logger } = singer;
 exports.BaseStream = class BaseStream extends streams.BaseStream {
   KEY_PROPERTIES = ['id'];
 
-  BASE_URL = 'https://www.cryptunit.com';
+  BASE_URL = '';
 
   loadSchemaByName(name) {
     const pathToSchema = resolve(__dirname, '..', 'schemas', `${name}.json`);

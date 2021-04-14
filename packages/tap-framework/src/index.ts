@@ -1,9 +1,12 @@
 /* eslint-disable camelcase */
 import fs from 'fs';
+import get from 'lodash/get';
+import axios, { AxiosRequestConfig } from 'axios';
 import { resolve } from 'path';
 import { Logger } from '@node-elt/singer-js';
 import { saveState } from './state';
 import { isSelected } from './streams';
+import { jsonToJsonSchema } from './utils';
 
 export * from './client';
 export * as state from './state';
@@ -59,6 +62,30 @@ export function Runner(args, client, availableStreams) {
       });
 
       return streams;
+    },
+
+    doGenerate() {
+      Logger.debug('Starting sync.');
+
+      const errorPrefix = 'Runner [doGenerate] | ';
+
+      const generateConfig = get(this.config, 'generate', null);
+
+      if (!generateConfig) {
+        throw new Error(
+          `${errorPrefix} generate is required in config file for --generate`
+        );
+      }
+
+      const paths = Object.keys(generateConfig);
+
+      paths.forEach((path) => {
+        const axiosConfig: AxiosRequestConfig = generateConfig[path];
+
+        console.log(axiosConfig);
+      });
+
+      throw new Error('Not implemented');
     },
 
     doDiscover() {

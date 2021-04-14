@@ -3,22 +3,22 @@ import update from 'lodash/update';
 
 export const SPLIT_KEY = ':::';
 
-export const toMap = (rawMetadata: Array<any>) =>
+export const toMap = (rawMetadata: Array<any>, splitKey = SPLIT_KEY) =>
   rawMetadata.reduce((acc, metaItem) => {
     const { breadcrumb, metadata } = metaItem;
 
-    acc[breadcrumb.join(SPLIT_KEY)] = metadata;
+    acc[breadcrumb.join(splitKey)] = metadata;
 
     return acc;
   }, {});
 
-export const toList = (compiledMetadata) => {
+export const toList = (compiledMetadata, splitKey = SPLIT_KEY) => {
   const list = [];
 
   for (const [k, v] of Object.entries(compiledMetadata)) {
     let breadcrumb = [];
     if (k !== '') {
-      breadcrumb = k.split(SPLIT_KEY);
+      breadcrumb = k.split(splitKey);
     }
 
     list.push({ breadcrumb, metadata: v });

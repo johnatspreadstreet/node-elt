@@ -1,0 +1,115 @@
+{
+  "streams": [
+    {
+      "tap_stream_id": "liquidation_events",
+      "stream": "liquidation_events",
+      "key_properties": ["id"],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string"
+          },
+          "blockNumber": {
+            "type": "number"
+          },
+          "blockTime": {
+            "type": "number"
+          },
+          "cTokenSymbol": {
+            "type": "string"
+          },
+          "underlyingSymbol": {
+            "type": "string"
+          },
+          "underlyingRepayAmount": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "amount",
+          "to",
+          "from",
+          "blockNumber",
+          "blockTime",
+          "cTokenSymbol",
+          "underlyingSymbol",
+          "underlyingRepayAmount"
+        ]
+      },
+      "metadata": [
+        {
+          "breadcrumb": [],
+          "metadata": {
+            "inclusion": "available",
+            "selected": true
+          }
+        },
+        {
+          "breadcrumb": ["properties", "id"],
+          "metadata": {
+            "inclusion": "automatic"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "amount"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "to"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "from"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "blockNumber"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "blockTime"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "cTokenSymbol"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "underlyingSymbol"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "underlyingRepayAmount"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        }
+      ]
+    }
+  ]
+}

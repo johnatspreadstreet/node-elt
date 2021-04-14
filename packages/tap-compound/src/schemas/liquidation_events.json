@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "string"
+    },
+    "to": {
+      "type": "string"
+    },
+    "from": {
+      "type": "string"
+    },
+    "blockNumber": {
+      "type": "number"
+    },
+    "blockTime": {
+      "type": "number"
+    },
+    "cTokenSymbol": {
+      "type": "string"
+    },
+    "underlyingSymbol": {
+      "type": "string"
+    },
+    "underlyingRepayAmount": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "amount",
+    "to",
+    "from",
+    "blockNumber",
+    "blockTime",
+    "cTokenSymbol",
+    "underlyingSymbol",
+    "underlyingRepayAmount"
+  ]
+}

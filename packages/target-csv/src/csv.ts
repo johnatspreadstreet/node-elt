@@ -1,103 +1,23 @@
-import fs from 'fs';
-import { FormatterOptionsArgs, Row, writeToStream } from '@fast-csv/format';
+const fs = require('fs-extra');
+const path = require('path');
+const json2csv = require('json2csv').parse;
 
-type CsvFileOpts = {
-  headers: string[];
-  path: string;
+export const write = async (fileName, fields, data) => {
+  // output file in the same folder
+  const filename = path.join(process.cwd(), `${fileName}`);
+
+  let rows;
+  // If file doesn't exist, we will create new file and add rows with headers.
+  if (!fs.existsSync(filename)) {
+    await fs.ensureFileSync(filename);
+    rows = json2csv(data, { header: true });
+  } else {
+    // Rows without headers.
+    rows = json2csv(data, { header: false });
+  }
+
+  // Append file function can create new file too.
+  fs.appendFileSync(filename, rows);
+  // Always add new line if file already exists.
+  fs.appendFileSync(filename, '\r\n');
 };
-
-export const Csv = (opts) => ({
-  headers: opts.headers,
-  path: opts.path,
-  writeOpts: { headers: opts.headers, includeEndRowDelimiter: true },
-  write(
-    stream,
-    rows: Row[],
-    options: FormatterOptionsArgs<Row, Row>
-  ): Promise<void> {
-    return new Promise((res, rej) => {
-      writeToStream(stream, rows, options)
-        .on('error', (err: Error) => rej(err))
-        .on('finish', () => res());
-    });
-  },
-  create(rows: Row[]): Promise<void> {
-    return this.write(fs.createWriteStream(this.path), rows, {
-      ...this.writeOpts,
-    });
-  },
-
-  append(rows: Row[]): Promise<void> {
-    return this.write(fs.createWriteStream(this.path, { flags: 'a' }), rows, {
-      ...this.writeOpts,
-      // dont write the headers when appending
-      writeHeaders: false,
-    });
-  },
-
-  read(): Promise<Buffer> {
-    return new Promise((res, rej) => {
-      fs.readFile(this.path, (err, contents) => {
-        if (err) {
-          return rej(err);
-        }
-        return res(contents);
-      });
-    });
-  },
-});
-
-export class CsvFile {
-  static write(
-    stream,
-    rows: Row[],
-    options: FormatterOptionsArgs<Row, Row>
-  ): Promise<void> {
-    return new Promise((res, rej) => {
-      writeToStream(stream, rows, options)
-        .on('error', (err: Error) => rej(err))
-        .on('finish', () => res());
-    });
-  }
-
-  headers: string[];
-
-  path: string;
-
-  writeOpts: FormatterOptionsArgs<Row, Row>;
-
-  constructor(opts: CsvFileOpts) {
-    this.headers = opts.headers;
-    this.path = opts.path;
-    this.writeOpts = { headers: this.headers, includeEndRowDelimiter: true };
-  }
-
-  create(rows: Row[]): Promise<void> {
-    return CsvFile.write(fs.createWriteStream(this.path), rows, {
-      ...this.writeOpts,
-    });
-  }
-
-  append(rows: Row[]): Promise<void> {
-    return CsvFile.write(
-      fs.createWriteStream(this.path, { flags: 'a' }),
-      rows,
-      {
-        ...this.writeOpts,
-        // dont write the headers when appending
-        writeHeaders: false,
-      }
-    );
-  }
-
-  read(): Promise<Buffer> {
-    return new Promise((res, rej) => {
-      fs.readFile(this.path, (err, contents) => {
-        if (err) {
-          return rej(err);
-        }
-        return res(contents);
-      });
-    });
-  }
-}

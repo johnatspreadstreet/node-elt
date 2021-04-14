@@ -1,13 +1,16 @@
+---
+to: tap-<%=name%>/src/streams/path.js
+---
 const { BaseStream } = require('./base');
 
-exports.Algorithms = class Algorithms extends BaseStream {
+exports.Path = class Path extends BaseStream {
   API_METHOD = 'GET';
 
-  TABLE = 'algorithms';
+  TABLE = '';
 
   KEY_PROPERTIES = ['id'];
 
-  PATH = '/api/algos';
+  PATH = '';
 
   RESPONSE_KEY = 'data';
 

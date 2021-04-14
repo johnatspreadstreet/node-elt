@@ -5,5 +5,6 @@ export interface Parsed {
   statePath?: string;
   catalog?: string;
   catalogPath?: string;
+  generate?: boolean;
   discover?: boolean;
 }

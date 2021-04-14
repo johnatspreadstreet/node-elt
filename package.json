@@ -25,6 +25,7 @@
   "scripts": {
     "format": "syncpack format",
     "sync": "syncpack sync",
+    "tap-cryptunit:generate": "cd packages/tap-cryptunit && npm run generate",
     "tap-cryptunit:discover": "cd packages/tap-cryptunit && npm run discover",
     "tap-cryptunit:dry": "cd packages/tap-cryptunit && npm run dry",
     "tap-cryptunit:sync": "cd packages/tap-cryptunit && npm run sync",

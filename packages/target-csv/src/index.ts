@@ -5,9 +5,9 @@
 /* eslint-disable no-restricted-globals */
 import readline from 'readline';
 import dayjs from 'dayjs';
-import { messages, Logger } from '@node-elt/singer-js';
+import { messages } from '@node-elt/singer-js';
 import get from 'lodash/get';
-import { write } from './csv2';
+import { write } from './csv';
 
 const { isValidJSONString } = messages;
 
@@ -84,6 +84,7 @@ const main = async (opts) => {
   const validators = {};
 
   for await (const stdin of rl) {
+    console.log(stdin);
     const msg = JSON.parse(stdin);
 
     const types = ['RECORD', 'SCHEMA', 'STATE', 'ACTIVATE_VERSION'];
