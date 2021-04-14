@@ -1,9 +1,8 @@
 import { resolve } from 'path';
-import { messages } from '@node-elt/singer-js';
+import { messages, Logger } from '@node-elt/singer-js';
 import dayjs from 'dayjs';
 import get from 'lodash/get';
 import fs from 'fs-extra';
-import Logger from './logger';
 
 const { writeState } = messages;
 

@@ -3,8 +3,7 @@ import fs from 'fs';
 import { resolve } from 'path';
 import get from 'lodash/get';
 import size from 'lodash/size';
-import { metadata, messages } from '@node-elt/singer-js';
-import Logger from './logger';
+import { metadata, messages, Logger } from '@node-elt/singer-js';
 
 export const SPLIT_KEY = ':::';
 

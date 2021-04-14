@@ -3,17 +3,11 @@
 /* eslint-disable no-var */
 /* eslint-disable vars-on-top */
 /* eslint-disable no-restricted-globals */
-import { resolve } from 'path';
 import readline from 'readline';
-import { format } from '@fast-csv/format';
 import dayjs from 'dayjs';
 import { messages } from '@node-elt/singer-js';
 import get from 'lodash/get';
-import split from 'split2';
-import pump from 'pump';
-import through from 'through2';
 import { write } from './csv2';
-import { Csv } from './csv';
 
 const emitState = (state) => {};
 
@@ -73,29 +67,36 @@ const main = async (opts) => {
   const headers = {};
   const validators = {};
 
-  for await (const msg of rl) {
-    const types = ['RECORD', 'SCHEMA', 'STATE'];
+  for await (const stdin of rl) {
+    const msg = JSON.parse(stdin);
 
-    const o = messages.parseMessage(msg);
+    const types = ['RECORD', 'SCHEMA', 'STATE', 'ACTIVATE_VERSION'];
 
-    const msgType = o.type;
+    if (!types.includes(msg.type)) {
+      console.log(msg);
+    } else {
+      const o = messages.parseMessage(msg);
 
-    switch (msgType) {
-      case 'RECORD':
-        await persistRecord(o, now);
-        break;
-      case 'STATE':
-        state = get(o, 'value', null);
-        break;
-      case 'SCHEMA':
-        const stream = get(o, 'stream', null);
-        schemas[stream] = get(o, 'schema', null);
-        key_properties[stream] = get(o, 'key_properties', null);
-        break;
+      const msgType = o.type;
 
-      default:
-        console.warn('Unknown message type');
-        break;
+      switch (msgType) {
+        case 'RECORD':
+          await persistRecord(o, now);
+          break;
+        case 'STATE':
+          state = get(o, 'value', null);
+          break;
+        case 'SCHEMA': {
+          const stream = get(o, 'stream', null);
+          schemas[stream] = get(o, 'schema', null);
+          key_properties[stream] = get(o, 'key_properties', null);
+          break;
+        }
+
+        default:
+          console.warn('Unknown message type');
+          break;
+      }
     }
   }
 

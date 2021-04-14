@@ -2,14 +2,15 @@ const { Runner } = require('@node-elt/tap-framework');
 const singer = require('@node-elt/singer-js');
 const availableStreams = require('./streams');
 const { Client } = require('./client');
-const Logger = require('./logger');
+
+const { Logger } = singer;
 
 const CONFIG_KEYS = [];
 
 async function main(opts) {
   const errorPrefix = 'tap-cryptunit main | ';
 
-  // Logger.info('Starting stream');
+  Logger.info('Starting stream');
 
   const args = singer.utils.parseArgs(opts, CONFIG_KEYS);
   const client = Client(args.config);

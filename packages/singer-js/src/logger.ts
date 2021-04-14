@@ -1,11 +1,7 @@
-const split = require('split2');
-const pump = require('pump');
-const through = require('through2');
+import pino from 'pino';
 
-const myTransport = through.obj((chunk, enc, cb) => {
-  // do the necessary
-  console.log(chunk);
-  cb();
+const level = process.env.LOG_LEVEL || 'info';
+
+export const Logger = pino({
+  level,
 });
-
-pump(process.stdin, split(JSON.parse), myTransport);

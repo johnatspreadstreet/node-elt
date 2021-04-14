@@ -1,6 +1,6 @@
 import axios from 'axios';
+import { Logger } from '@node-elt/singer-js';
 import { asyncErrorHandler, axiosErrorHandler } from './error-handler';
-import Logger from './logger';
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 

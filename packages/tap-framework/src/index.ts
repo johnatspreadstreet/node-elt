@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import fs from 'fs';
 import { resolve } from 'path';
-import Logger from './logger';
+import { Logger } from '@node-elt/singer-js';
 import { saveState } from './state';
 import { isSelected } from './streams';
 
