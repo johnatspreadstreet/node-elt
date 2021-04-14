@@ -1,11 +1,11 @@
 {
   "name": "@node-elt/tap-framework",
   "description": "",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "author": "",
   "dependencies": {
     "@feathersjs/errors": "^4.5.11",
-    "@node-elt/singer-js": "^1.0.2",
+    "@node-elt/singer-js": "^1.1.0",
     "axios": "^0.21.1",
     "dayjs": "^1.10.4",
     "fs-extra": "^9.1.0",

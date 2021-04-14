@@ -1,7 +1,7 @@
 {
   "name": "@node-elt/singer-js",
   "description": "Singer framework implemented in Nodejs",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "author": "@johnatspreadstreet",
   "dependencies": {
     "axios": "^0.21.1",
