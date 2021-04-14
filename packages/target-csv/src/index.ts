@@ -97,7 +97,7 @@ const main = async (opts) => {
 
       switch (msgType) {
         case 'RECORD':
-          // await persistRecord(o, now);
+          await persistRecord(o, now);
           break;
         case 'STATE':
           state = get(o, 'value', null);

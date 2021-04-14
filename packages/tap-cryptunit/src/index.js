@@ -1,5 +1,5 @@
-const { Runner } = require('@node-elt/tap-framework');
 const singer = require('@node-elt/singer-js');
+const { Runner } = require('@node-elt/tap-framework');
 const availableStreams = require('./streams');
 const { Client } = require('./client');
 
