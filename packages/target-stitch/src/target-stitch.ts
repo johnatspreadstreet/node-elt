@@ -2,7 +2,6 @@
 import commander from 'commander';
 import main from '.';
 
-const BIGBATCH_MAX_BATCH_BYTES = 20000000;
 const DEFAULT_MAX_BATCH_BYTES = '4000000';
 const DEFAULT_MAX_BATCH_RECORDS = '20000';
 const DEFAULT_BATCH_DELAY_SECONDS = '300';

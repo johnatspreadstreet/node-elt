@@ -1,5 +1,6 @@
 import { Logger } from '@node-elt/singer-js';
 import size from 'lodash/size';
+import { serialize } from './serialize';
 import { asyncBatchProcess } from './arrays';
 import { write } from './write';
 
@@ -50,14 +51,22 @@ export const LoggingHandler = (
       } to ${this.output_file} `,
     });
 
-    await asyncBatchProcess(messages, write, size(messages), {
-      fileName: this.output_file,
-    });
+    const serializedMessages = serialize(
+      messages,
+      schema,
+      key_names,
+      bookmark_names,
+      this.max_batch_bytes,
+      this.max_batch_records
+    );
 
-    // messages.forEach(message => {
-    //   const toWrite = {
-
-    //   }
-    // })
+    await asyncBatchProcess(
+      serializedMessages,
+      write,
+      size(serializedMessages),
+      {
+        fileName: this.output_file,
+      }
+    );
   },
 });
