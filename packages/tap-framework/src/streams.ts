@@ -2,33 +2,10 @@
 import fs from 'fs';
 import { resolve } from 'path';
 import get from 'lodash/get';
-import size from 'lodash/size';
 import { metadata, messages, Logger } from '@node-elt/singer-js';
+import { StreamCatalog } from './types';
 
 export const SPLIT_KEY = ':::';
-
-type Inclusion = 'available' | 'automatic' | 'unsupported';
-
-interface MetaObject {
-  inclusion: Inclusion;
-  selected?: boolean;
-  'table-key-properties'?: string[];
-  'valid-replication-keys'?: string[];
-  'schema-name': string;
-}
-
-interface Metadata {
-  metadata: MetaObject;
-  breadcrumb: string[]; // The breadcrumb object above defines the path into the schema to the node to which the metadata belongs. Metadata for a stream will have an empty breadcrumb.
-}
-
-interface StreamCatalog {
-  stream: any; // The name of the stream
-  tap_stream_id: string; // The unique identifier for the stream. This is allowed to be different from the name of the stream in order to allow for sources that have duplicate stream names.
-  schema: any; // JSON schema for the stream
-  table_name: string; // For a database source, name of the table
-  metadata?: Metadata[];
-}
 
 /**
  *
