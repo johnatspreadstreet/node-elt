@@ -6,9 +6,9 @@ import { resolve } from 'path';
 import { Logger } from '@node-elt/singer-js';
 import { saveState } from './state';
 import { isSelected } from './streams';
-import { jsonToJsonSchema } from './utils';
 
 export * from './client';
+export * from './types';
 export * as state from './state';
 export * as streams from './streams';
 
