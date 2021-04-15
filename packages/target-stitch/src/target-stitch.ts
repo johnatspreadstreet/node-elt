@@ -18,8 +18,16 @@ commander
   .option('-o, --output-file <filename>', 'Save requests to this output file')
   .option('-v, --verbose', 'Produce debug-level logging')
   .option('-q, --quiet', 'Suppress info-level logging')
-  .option('--max-batch-records', 'Max batch records', DEFAULT_MAX_BATCH_RECORDS)
-  .option('--max-batch-byes', 'Max batch bytes', DEFAULT_MAX_BATCH_BYTES)
+  .option(
+    '--max-batch-records <number>',
+    'Max batch records',
+    DEFAULT_MAX_BATCH_RECORDS
+  )
+  .option(
+    '--max-batch-bytes <number>',
+    'Max batch bytes',
+    DEFAULT_MAX_BATCH_BYTES
+  )
   .option(
     '--batch-delay-seconds',
     'Batch delay seconds',

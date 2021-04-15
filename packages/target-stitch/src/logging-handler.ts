@@ -1,5 +1,7 @@
 import { Logger } from '@node-elt/singer-js';
 import size from 'lodash/size';
+import { asyncBatchProcess } from './arrays';
+import { write } from './write';
 
 export const LoggingHandler = (
   output_file,
@@ -9,7 +11,7 @@ export const LoggingHandler = (
   output_file,
   max_batch_bytes,
   max_batch_records,
-  handleStateOnly(state_writer, state) {
+  handle_state_only(state_writer, state) {
     if (state) {
       // TODO
     }
@@ -30,7 +32,7 @@ export const LoggingHandler = (
    * @param state_writer
    * @param state
    */
-  handleBatch(
+  async handle_batch(
     messages,
     contains_activate_version,
     schema,
@@ -39,13 +41,23 @@ export const LoggingHandler = (
     state_writer = null,
     state = null
   ) {
-    Logger.info('LoggingHandler [handleBatch]');
+    Logger.info('LoggingHandler [handle_batch]');
 
     Logger.info({
-      at: 'LoggingHandler [handleBatch]',
+      at: 'LoggingHandler [handle_batch]',
       message: `Saving batch with ${size(messages)} messages for table ${
         messages[0].stream
-      } to ${this.output_file.name} `,
+      } to ${this.output_file} `,
     });
+
+    await asyncBatchProcess(messages, write, size(messages), {
+      fileName: this.output_file,
+    });
+
+    // messages.forEach(message => {
+    //   const toWrite = {
+
+    //   }
+    // })
   },
 });

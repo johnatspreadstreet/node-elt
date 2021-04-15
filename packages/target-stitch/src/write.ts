@@ -2,7 +2,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const json2csv = require('json2csv').parse;
 
-export const write = async (fileName, fields, data) => {
+export const write = async (data, { fileName }) => {
   // output file in the same folder
   const filename = path.join(process.cwd(), `${fileName}`);
 

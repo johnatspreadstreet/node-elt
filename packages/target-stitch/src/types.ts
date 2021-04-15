@@ -12,7 +12,7 @@ export interface Args {
   outputFile?: any;
   verbose?: boolean;
   quiet?: boolean;
-  maxBatchRecords?: string | number;
-  maxBatchBytes?: string | number;
-  batchDelaySeconds?: string | number;
+  maxBatchRecords: string | number;
+  maxBatchBytes: string | number;
+  batchDelaySeconds: string | number;
 }

@@ -9,6 +9,7 @@ import { resolve } from 'path';
 import readline from 'readline';
 import dayjs from 'dayjs';
 import { messages, Logger } from '@node-elt/singer-js';
+import reduce from 'lodash/reduce';
 import get from 'lodash/get';
 import size from 'lodash/size';
 import sum from 'lodash/sum';
@@ -54,118 +55,145 @@ const TargetStitch = (
   max_batch_bytes,
   max_batch_records,
   batch_delay_seconds
-) => {
-  console.log('tbd');
-  return {
-    messages: {},
-    contains_activate_version: {},
-    buffer_size_bytes: {},
-    state: null,
-    stream_meta: {},
-    handlers,
-    state_writer,
-    max_batch_bytes,
-    max_batch_records,
-    batch_delay_seconds,
-    time_last_batch_sent: dayjs().unix(),
-    flush_stream(stream, is_final_stream) {},
-    flush() {
-      console.log('TODO: Flush');
-      const messages_to_flush = {};
-      let num_flushed = 0;
-      const num_streams = size(messages_to_flush);
+) => ({
+  messages: {},
+  contains_activate_version: {},
+  buffer_size_bytes: {},
+  state: null,
+  stream_meta: {},
+  handlers,
+  state_writer,
+  max_batch_bytes,
+  max_batch_records,
+  batch_delay_seconds,
+  time_last_batch_sent: dayjs().unix(),
+  flush_stream(stream, is_final_stream) {
+    const messages = this.messages[stream];
+    const stream_meta = this.stream_meta[stream];
 
-      for (const [stream, messages] of Object.entries(messages_to_flush)) {
-        num_flushed += 1;
-        const is_final_stream = num_flushed === num_streams;
-        this.flush_stream(stream, is_final_stream);
-      }
+    let state = null;
+    if (is_final_stream) {
+      state = this.state;
+    }
 
-      if (num_flushed === 0 && this.state) {
-        this.handlers.forEach((handler) => {
-          handler.handle_state_only(this.state_writer, this.state);
-        });
-        this.state = null;
-      }
-    },
-    async handle_message(message) {
-      const line = JSON.stringify(message).length;
-      const msgType = message.type;
-      switch (msgType) {
-        case 'SCHEMA': {
-          this.flush();
+    this.handlers.forEach((handler) => {
+      handler.handle_batch(
+        messages,
+        get(this.contains_activate_version, stream, false),
+        stream_meta.schema,
+        stream_meta.key_properties,
+        stream_meta.bookmark_properties,
+        this.state_writer,
+        state
+      );
+    });
 
-          if (!get(this.messages, message.stream)) {
-            this.messages[message.stream] = [];
-          }
+    this.time_last_batch_sent = dayjs().unix();
+    this.contains_activate_version[stream] = false;
+    this.buffer_size_bytes[stream] = 0;
+    this.messages[stream] = [];
 
-          this.stream_meta[message.stream] = {
-            schema: message.schema,
-            key_properties: message.key_properties,
-            bookmark_properties: message.bookmark_properties,
-          };
-          break;
-        }
-        case 'RECORD': {
-          const current_stream = message.stream;
-
-          if (
-            this.messages[current_stream] &&
-            message.version !== this.messages[current_stream[0].version]
-          ) {
-            this.flush();
-          }
-
-          this.messages[current_stream].push(message);
-          this.buffer_size_bytes[current_stream] =
-            get(this.buffer_size_bytes, current_stream, 0) + line;
-
-          const num_bytes = sum(Object.values(this.buffer_size_bytes));
-          let num_messages = 0;
-          Object.values(this.messages).forEach((streamMessages: Array<any>) => {
-            num_messages += num_messages + size(streamMessages);
-          });
-          const num_seconds = dayjs().unix() - this.time_last_batch_sent;
-
-          const enough_bytes = num_bytes >= this.max_batch_bytes;
-          const enough_messages = num_messages >= this.max_batch_records;
-          const enough_time = num_seconds >= this.batch_delay_seconds;
-
-          if (enough_bytes || enough_messages || enough_time) {
-            Logger.debug(
-              `Flushing ${num_bytes} bytes, ${num_messages} messages, after ${num_seconds}`
-            );
-            this.flush();
-          }
-
-          break;
-        }
-        case 'STATE': {
-          this.state = message.value;
-
-          const num_seconds = dayjs().unix() - this.time_last_batch_sent;
-
-          if (num_seconds > this.batch_delay_seconds) {
-            Logger.debug(`Flushing state`);
-          }
-
-          this.flush();
-          this.time_last_batch_sent = dayjs().unix();
-          break;
+    if (is_final_stream) {
+      this.state = null;
+    }
+  },
+  flush() {
+    const messages_to_flush = reduce(
+      this.messages,
+      (result, msgs, stream) => {
+        if (size(msgs) > 0) {
+          result[stream] = msgs;
         }
 
-        default:
-          console.warn('Unknown message type');
-          break;
-      }
-    },
-    consume(allMessages) {
-      allMessages.forEach((message) => {
-        this.handle_message(message);
+        return result;
+      },
+      {}
+    );
+
+    let num_flushed = 0;
+    const num_streams = size(messages_to_flush);
+
+    for (const [stream, msgs] of Object.entries(messages_to_flush)) {
+      num_flushed += 1;
+      const is_final_stream = num_flushed === num_streams;
+
+      this.flush_stream(stream, is_final_stream);
+    }
+
+    if (num_flushed === 0 && this.state) {
+      this.handlers.forEach((handler) => {
+        handler.handle_state_only(this.state_writer, this.state);
       });
-    },
-  };
-};
+      this.state = null;
+    }
+  },
+  async handle_message(message) {
+    const line = JSON.stringify(message).length;
+    const msgType = message.type;
+    switch (msgType) {
+      case 'SCHEMA': {
+        this.flush();
+
+        if (!get(this.messages, message.stream)) {
+          this.messages[message.stream] = [];
+        }
+
+        this.stream_meta[message.stream] = {
+          schema: message.schema,
+          key_properties: message.key_properties,
+          bookmark_properties: message.bookmark_properties,
+        };
+        break;
+      }
+      case 'RECORD': {
+        const current_stream = message.stream;
+
+        this.messages[current_stream].push(message);
+        this.buffer_size_bytes[current_stream] =
+          get(this.buffer_size_bytes, current_stream, 0) + line;
+
+        const num_bytes = sum(Object.values(this.buffer_size_bytes));
+        let num_messages = 0;
+        Object.values(this.messages).forEach((streamMessages: Array<any>) => {
+          num_messages += num_messages + size(streamMessages);
+        });
+        const num_seconds = dayjs().unix() - this.time_last_batch_sent;
+
+        const enough_bytes = num_bytes >= this.max_batch_bytes;
+        const enough_messages = num_messages >= this.max_batch_records;
+        const enough_time = num_seconds >= this.batch_delay_seconds;
+
+        if (enough_bytes || enough_messages || enough_time) {
+          Logger.debug(
+            `Flushing ${num_bytes} bytes, ${num_messages} messages, after ${num_seconds}`
+          );
+          this.flush();
+        }
+
+        break;
+      }
+      case 'STATE': {
+        this.state = message.value;
+        const num_seconds = dayjs().unix() - this.time_last_batch_sent;
+        if (num_seconds > this.batch_delay_seconds) {
+          Logger.debug(`Flushing state`);
+        }
+        this.flush();
+        this.time_last_batch_sent = dayjs().unix();
+        break;
+      }
+
+      default:
+        console.warn('Unknown message type');
+        break;
+    }
+  },
+  consume(allMessages) {
+    allMessages.forEach((message) => {
+      this.handle_message(message);
+    });
+  },
+});
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -173,6 +201,9 @@ const rl = readline.createInterface({
 });
 
 const run = async (args: Args, allMessages) => {
+  args.maxBatchBytes = Number(args.maxBatchBytes);
+  args.maxBatchRecords = Number(args.maxBatchRecords);
+
   if (args.verbose) {
     Logger.level = 'debug';
   } else {
@@ -182,9 +213,12 @@ const run = async (args: Args, allMessages) => {
   const handlers = [];
   if (args.outputFile) {
     // TODO: Append to file
-    handlers.push(
-      LoggingHandler(args.outputFile, args.maxBatchBytes, args.maxBatchRecords)
+    const loggingHandler = LoggingHandler(
+      args.outputFile,
+      args.maxBatchBytes,
+      args.maxBatchRecords
     );
+    handlers.push(loggingHandler);
   }
 
   if (args.dryRun) {
@@ -233,41 +267,6 @@ const main = async (opts) => {
     // Error handling here for Known vs. Unknown
     Logger.error(e);
   }
-
-  // for await (const stdin of rl) {
-  //   const msg = JSON.parse(stdin);
-
-  //   const types = ['RECORD', 'SCHEMA', 'STATE', 'ACTIVATE_VERSION'];
-
-  //   if (!types.includes(msg.type)) {
-  //     // Logger.info(msg);
-  //   } else {
-  //     const o = messages.parseMessage(msg);
-
-  //     const msgType = o.type;
-
-  //     switch (msgType) {
-  //       case 'RECORD':
-  //         await persistRecord(o, now);
-  //         break;
-  //       case 'STATE':
-  //         state = get(o, 'value', null);
-  //         break;
-  //       case 'SCHEMA': {
-  //         const stream = get(o, 'stream', null);
-  //         schemas[stream] = get(o, 'schema', null);
-  //         key_properties[stream] = get(o, 'key_properties', null);
-  //         break;
-  //       }
-
-  //       default:
-  //         console.warn('Unknown message type');
-  //         break;
-  //     }
-  //   }
-  // }
-
-  // emitState(state);
 };
 
 export default main;
