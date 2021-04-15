@@ -1,5 +1,5 @@
 {
-  "name": "@node-elt/tap-generator",
+  "name": "@node-elt/generate",
   "description": "",
   "version": "1.0.2",
   "author": "",
@@ -11,7 +11,8 @@
     "commander": "^7.2.0",
     "enquirer": "^2.3.6",
     "execa": "^4.1.0",
-    "hygen": "^6.0.4"
+    "hygen": "^6.0.4",
+    "inquirer": "^8.0.0"
   },
   "gitHead": "959b61004987bd60cf8fa786cebd69bc78876e3b",
   "license": "ISC",

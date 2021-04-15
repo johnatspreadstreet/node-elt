@@ -26,6 +26,7 @@
     "format": "syncpack format",
     "publish": "lerna publish",
     "sync": "syncpack fix-mismatches",
+    "generate": "cd packages/generate && npm run generate",
     "tap-cryptunit:discover": "cd packages/tap-cryptunit && npm run discover",
     "tap-cryptunit:dry": "cd packages/tap-cryptunit && npm run dry",
     "tap-cryptunit:generate": "cd packages/tap-cryptunit && npm run generate",
