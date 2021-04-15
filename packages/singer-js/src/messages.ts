@@ -1,6 +1,8 @@
+/* eslint-disable camelcase */
 import dayjs from 'dayjs';
 import get from 'lodash/get';
 import hasIn from 'lodash/hasIn';
+import { Record, Schema } from './types';
 
 export const isValidJSONString = (str) => {
   try {
@@ -28,12 +30,10 @@ const RecordMessage = (
   version = null,
   time_extracted = null
 ) => {
-  const result = {
+  const result: Record = {
     type: 'RECORD',
     stream,
     record,
-    version: null,
-    time_extracted: null,
   };
 
   if (version) {
@@ -49,12 +49,11 @@ const RecordMessage = (
 };
 
 const SchemaMessage = (stream, schema, key_properties, bookmark_properties) => {
-  const result = {
+  const result: Schema = {
     type: 'SCHEMA',
     stream,
     schema,
     key_properties,
-    bookmark_properties,
   };
 
   if (bookmark_properties) {
@@ -158,11 +157,10 @@ export const writeRecord = (
   streamAlias = null,
   timeExtracted = null
 ) => {
-  const result = {
+  const result: Record = {
     type: 'RECORD',
     stream: streamAlias || streamName,
     record,
-    time_extracted: null,
   };
 
   if (timeExtracted) {

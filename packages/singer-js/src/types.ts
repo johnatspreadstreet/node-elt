@@ -8,3 +8,19 @@ export interface Parsed {
   generate?: boolean;
   discover?: boolean;
 }
+
+export interface Record {
+  type: string;
+  stream: string;
+  record: any;
+  version?: any;
+  time_extracted?: any;
+}
+
+export interface Schema {
+  type: string;
+  stream: string;
+  schema: any;
+  key_properties?: string[];
+  bookmark_properties?: string[];
+}
