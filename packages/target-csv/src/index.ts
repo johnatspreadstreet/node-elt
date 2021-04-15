@@ -84,7 +84,6 @@ const main = async (opts) => {
   const validators = {};
 
   for await (const stdin of rl) {
-    console.log(stdin);
     const msg = JSON.parse(stdin);
 
     const types = ['RECORD', 'SCHEMA', 'STATE', 'ACTIVATE_VERSION'];

@@ -26,7 +26,7 @@
   },
   "scripts": {
     "discover": "node ./bin/tap-cryptunit.js --discover",
-    "dry": "node ./bin/tap-cryptunit.js --config config.json --catalog catalog.json | node ../target-csv/lib/target-csv.js >> state.json",
+    "dry": "node ./bin/tap-cryptunit.js --config config.json --catalog catalog.json | node ../target-stitch/lib/target-stitch.js --config config.json",
     "generate": "node ./bin/tap-cryptunit.js --config config.json --generate generate.json",
     "sync": "node ./bin/tap-cryptunit.js --config config.json --catalog catalog.json | pino-pretty",
     "test": "echo \"Error: no test specified\" && exit 1"
