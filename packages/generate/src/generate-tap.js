@@ -4,6 +4,7 @@ const Logger = require('hygen/lib/logger');
 const { readdirSync } = require('fs');
 const { join } = require('path');
 
+const packagesDir = join(__dirname, '../../');
 const defaultTemplates = join(__dirname, '_templates');
 
 const getAvailableGenerators = () => {
@@ -32,11 +33,9 @@ const getOptions = async () => {
 const run = async () => {
   const options = await getOptions();
 
-  console.log(options);
-
   return runner(['generate', options.generator], {
     templates: defaultTemplates,
-    cwd: process.cwd(),
+    cwd: packagesDir,
     logger: new Logger(console.log.bind(console)),
     createPrompter: () => require('enquirer'),
     exec: (action, body) => {
