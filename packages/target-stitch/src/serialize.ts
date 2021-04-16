@@ -78,9 +78,9 @@ export const serialize = (
         sequence,
       };
 
-      if (message.time_extracted) {
-        record_message.time_extracted = dayjs(message.time_extracted).unix();
-      }
+      // if (message.time_extracted) {
+      //   record_message.time_extracted = dayjs(message.time_extracted).unix();
+      // }
 
       serialized_messages.push(record_message);
     }

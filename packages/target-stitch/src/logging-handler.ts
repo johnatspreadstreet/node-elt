@@ -15,6 +15,8 @@ export const LoggingHandler = (
   handle_state_only(state_writer, state) {
     if (state) {
       // TODO
+      const line = JSON.stringify(state);
+      state_writer(line);
     }
   },
 

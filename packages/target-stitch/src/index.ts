@@ -19,6 +19,8 @@ import { Args, Config } from './types';
 import { LoggingHandler } from './logging-handler';
 import { Memory } from './memory';
 import { StitchHandler } from './stitch-handler';
+import { ValidatingHandler } from './validating-handler';
+import { asyncForEach } from './arrays';
 
 const { isValidJSONString } = messages;
 
@@ -100,7 +102,7 @@ const TargetStitch = (
   max_batch_records,
   batch_delay_seconds,
   time_last_batch_sent: dayjs().unix(),
-  flush_stream(stream, is_final_stream) {
+  async flush_stream(stream, is_final_stream) {
     const messages = this.messages[stream];
     const stream_meta = this.stream_meta[stream];
 
@@ -109,8 +111,8 @@ const TargetStitch = (
       state = this.state;
     }
 
-    this.handlers.forEach((handler) => {
-      handler.handle_batch(
+    await asyncForEach(handlers, async (handler) => {
+      await handler.handle_batch(
         messages,
         get(this.contains_activate_version, stream, false),
         stream_meta.schema,
@@ -130,7 +132,7 @@ const TargetStitch = (
       this.state = null;
     }
   },
-  flush() {
+  async flush() {
     const messages_to_flush = reduce(
       this.messages,
       (result, msgs, stream) => {
@@ -150,7 +152,7 @@ const TargetStitch = (
       num_flushed += 1;
       const is_final_stream = num_flushed === num_streams;
 
-      this.flush_stream(stream, is_final_stream);
+      await this.flush_stream(stream, is_final_stream);
     }
 
     if (num_flushed === 0 && this.state) {
@@ -165,7 +167,7 @@ const TargetStitch = (
     const msgType = message.type;
     switch (msgType) {
       case 'SCHEMA': {
-        this.flush();
+        await this.flush();
 
         if (!get(this.messages, message.stream)) {
           this.messages[message.stream] = [];
@@ -200,7 +202,7 @@ const TargetStitch = (
           Logger.debug(
             `Flushing ${num_bytes} bytes, ${num_messages} messages, after ${num_seconds}`
           );
-          this.flush();
+          await this.flush();
         }
 
         break;
@@ -211,7 +213,7 @@ const TargetStitch = (
         if (num_seconds > this.batch_delay_seconds) {
           Logger.debug(`Flushing state`);
         }
-        this.flush();
+        await this.flush();
         this.time_last_batch_sent = dayjs().unix();
         break;
       }
@@ -221,9 +223,9 @@ const TargetStitch = (
         break;
     }
   },
-  consume(allMessages) {
-    allMessages.forEach((message) => {
-      this.handle_message(message);
+  async consume(allMessages) {
+    await asyncForEach(allMessages, async (message) => {
+      await this.handle_message(message);
     });
   },
 });
@@ -256,22 +258,21 @@ const run = async (args: Args, allMessages) => {
 
   if (args.dryRun) {
     // TODO: Append validating handlers to file
-    return;
-  }
-
-  if (!args.config) {
+    const validatingHandler = ValidatingHandler();
+    handlers.push(validatingHandler);
+  } else if (!args.config) {
     throw new Error('Config file required if not in dry run mode');
+  } else {
+    const parsed = parseConfig(args.config);
+
+    handlers.push(
+      StitchHandler(parsed, args.maxBatchBytes, args.maxBatchRecords)
+    );
   }
-
-  const parsed = parseConfig(args.config);
-
-  handlers.push(
-    StitchHandler(parsed, args.maxBatchBytes, args.maxBatchRecords)
-  );
 
   const targetStitch = TargetStitch(
     handlers,
-    process.stdout,
+    messages.writeState,
     args.maxBatchBytes,
     args.maxBatchRecords,
     args.batchDelaySeconds
@@ -282,7 +283,10 @@ const run = async (args: Args, allMessages) => {
   const STATUS_URL = 'https://api.stitchdata.com/v2/import/status';
   await axios.get(STATUS_URL);
 
-  targetStitch.consume(allMessages);
+  await targetStitch.consume(allMessages);
+
+  Logger.info('Requests complete, completing loop');
+  process.exit(0);
 };
 
 const main = async (opts) => {

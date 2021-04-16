@@ -1,3 +1,9 @@
+export const asyncForEach = async (array, callback) => {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+};
+
 /**
  * Performs parallel fn's on array
  * @param array Array to batch process
@@ -29,7 +35,7 @@ export const asyncBatchProcess = async (
     }
 
     // await promise all and close browser
-    await Promise.all(promises).then(values => {
+    await Promise.all(promises).then((values) => {
       allValues.push(...values);
     });
   }
