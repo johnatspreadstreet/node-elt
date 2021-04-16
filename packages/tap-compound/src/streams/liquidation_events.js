@@ -22,7 +22,7 @@ exports.LiquidationEvents = class LiquidationEvents extends BaseStream {
     }
   `;
 
-  VARIABLES = { skip: 6000 };
+  VARIABLES = { skip: 0 };
 
   getMethod() {
     return this.API_METHOD;
