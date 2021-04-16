@@ -1,0 +1,157 @@
+{
+  "streams": [
+    {
+      "tap_stream_id": "vaults",
+      "stream": "vaults",
+      "key_properties": [
+        "id"
+      ],
+      "schema": {
+        "$schema": "http://json-schema.org/schema#",
+        "title": "Vault",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "hiddenOnUI": {
+            "type": "boolean"
+          },
+          "customerRefId": {
+            "type": "string"
+          },
+          "autoFuel": {
+            "type": "boolean"
+          },
+          "assets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "total": {
+                  "type": "string"
+                },
+                "available": {
+                  "type": "string"
+                },
+                "pending": {
+                  "type": "string"
+                },
+                "lockedAmount": {
+                  "type": "string"
+                },
+                "totalStakedCPU": {
+                  "type": "string"
+                },
+                "totalStakedNetwork": {
+                  "type": "string"
+                },
+                "selfStakedCPU": {
+                  "type": "string"
+                },
+                "selfStakedNetwork": {
+                  "type": "string"
+                },
+                "pendingRefundCPU": {
+                  "type": "string"
+                },
+                "pendingRefundNetwork": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "total",
+                "available",
+                "pending",
+                "lockedAmount",
+                "totalStakedCPU",
+                "totalStakedNetwork",
+                "selfStakedCPU",
+                "selfStakedNetwork",
+                "pendingRefundCPU",
+                "pendingRefundNetwork"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "hiddenOnUI",
+          "customerRefId",
+          "autoFuel",
+          "assets"
+        ]
+      },
+      "metadata": [
+        {
+          "breadcrumb": [],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": [
+            "properties",
+            "id"
+          ],
+          "metadata": {
+            "inclusion": "automatic"
+          }
+        },
+        {
+          "breadcrumb": [
+            "properties",
+            "name"
+          ],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": [
+            "properties",
+            "hiddenOnUI"
+          ],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": [
+            "properties",
+            "customerRefId"
+          ],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": [
+            "properties",
+            "autoFuel"
+          ],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": [
+            "properties",
+            "assets"
+          ],
+          "metadata": {
+            "inclusion": "available"
+          }
+        }
+      ]
+    }
+  ]
+}

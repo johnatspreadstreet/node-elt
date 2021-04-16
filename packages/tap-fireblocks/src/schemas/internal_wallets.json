@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "Internal Wallet",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "customerRefId": {
+      "type": "string"
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "balance": {
+            "type": "string"
+          },
+          "lockedAmount": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "activationTime": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "balance",
+          "lockedAmount",
+          "status",
+          "activationTime",
+          "address",
+          "tag"
+        ]
+      }
+    }
+  },
+  "required": ["id", "name", "customerRefId", "assets"]
+}

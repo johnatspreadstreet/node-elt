@@ -1,0 +1,338 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "Transaction",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "assetId": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "subType": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "id", "name", "subType"]
+    },
+    "destination": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "subType": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "id", "name", "subType"]
+    },
+    "amountInfo": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "string"
+        },
+        "requestedAmount": {
+          "type": "string"
+        },
+        "netAmount": {
+          "type": "string"
+        },
+        "amountUSD": {
+          "type": "string"
+        }
+      },
+      "required": ["amount", "requestedAmount", "netAmount", "amountUSD"]
+    },
+    "feeInfo": {
+      "type": "object",
+      "properties": {
+        "networkFee": {
+          "type": "string"
+        },
+        "serviceFee": {
+          "type": "string"
+        }
+      },
+      "required": ["networkFee", "serviceFee"]
+    },
+    "requestedAmount": {
+      "type": "number"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "netAmount": {
+      "type": "number"
+    },
+    "amountUSD": {
+      "type": "number"
+    },
+    "serviceFee": {
+      "type": "number"
+    },
+    "networkFee": {
+      "type": "number"
+    },
+    "createdAt": {
+      "type": "string"
+    },
+    "lastUpdated": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "txHash": {
+      "type": "string"
+    },
+    "tag": {
+      "type": "string"
+    },
+    "subStatus": {
+      "type": "string"
+    },
+    "destinationAddress": {
+      "type": "string"
+    },
+    "destinationAddressDescription": {
+      "type": "string"
+    },
+    "destinationTag": {
+      "type": "string"
+    },
+    "signedBy": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "createdBy": {
+      "type": "string"
+    },
+    "rejectedBy": {
+      "type": "string"
+    },
+    "addressType": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    },
+    "exchangeTxId": {
+      "type": "string"
+    },
+    "feeCurrency": {
+      "type": "string"
+    },
+    "operation": {
+      "type": "string"
+    },
+    "networkRecords": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "subType": {
+                "type": "string"
+              }
+            },
+            "required": ["type", "id", "name", "subType"]
+          },
+          "destination": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "subType": {
+                "type": "string"
+              }
+            },
+            "required": ["type", "id", "name", "subType"]
+          },
+          "txHash": {
+            "type": "string"
+          },
+          "networkFee": {
+            "type": "string"
+          },
+          "assetId": {
+            "type": "string"
+          },
+          "netAmount": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "destinationAddress": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "destination",
+          "txHash",
+          "networkFee",
+          "assetId",
+          "netAmount",
+          "status",
+          "type",
+          "destinationAddress"
+        ]
+      }
+    },
+    "amlScreeningResult": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        }
+      },
+      "required": ["provider", "payload"]
+    },
+    "customerRefId": {
+      "type": "string"
+    },
+    "numOfConfirmations": {
+      "type": "number"
+    },
+    "signedMessages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "algorithm": {
+            "type": "string"
+          },
+          "derivationPath": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "signature": {
+            "type": "object",
+            "properties": {
+              "r": {
+                "type": "string"
+              },
+              "s": {
+                "type": "string"
+              },
+              "v": {
+                "type": "number"
+              }
+            },
+            "required": ["r", "s", "v"]
+          },
+          "publicKey": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "content",
+          "algorithm",
+          "derivationPath",
+          "signature",
+          "publicKey"
+        ]
+      }
+    },
+    "replacedTxHash": {
+      "type": "string"
+    },
+    "extraParameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    }
+  },
+  "required": [
+    "id",
+    "assetId",
+    "source",
+    "destination",
+    "amountInfo",
+    "feeInfo",
+    "requestedAmount",
+    "amount",
+    "netAmount",
+    "amountUSD",
+    "serviceFee",
+    "networkFee",
+    "createdAt",
+    "lastUpdated",
+    "status",
+    "txHash",
+    "tag",
+    "subStatus",
+    "destinationAddress",
+    "destinationAddressDescription",
+    "destinationTag",
+    "signedBy",
+    "createdBy",
+    "rejectedBy",
+    "addressType",
+    "note",
+    "exchangeTxId",
+    "feeCurrency",
+    "operation",
+    "networkRecords",
+    "amlScreeningResult",
+    "customerRefId",
+    "numOfConfirmations",
+    "signedMessages",
+    "replacedTxHash",
+    "extraParameters"
+  ]
+}

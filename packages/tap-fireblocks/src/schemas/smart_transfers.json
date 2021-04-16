@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "Smart Transfer",
+  "type": "object",
+  "properties": {
+    "ticketId": {
+      "type": "string"
+    },
+    "externalTicketId": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "terms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "termId": {
+            "type": "string"
+          },
+          "txId": {
+            "type": "string"
+          },
+          "networkConnectionId": {
+            "type": "string"
+          },
+          "outgoing": {
+            "type": "boolean"
+          },
+          "amount": {
+            "type": "string"
+          },
+          "asset": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "termId",
+          "txId",
+          "networkConnectionId",
+          "outgoing",
+          "amount",
+          "asset",
+          "status",
+          "note"
+        ]
+      }
+    }
+  },
+  "required": ["ticketId", "externalTicketId", "status", "description", "terms"]
+}

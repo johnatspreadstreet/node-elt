@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "Vault Account",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "hiddenOnUI": {
+      "type": "boolean"
+    },
+    "customerRefId": {
+      "type": "string"
+    },
+    "autoFuel": {
+      "type": "boolean"
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "total": {
+            "type": "string"
+          },
+          "available": {
+            "type": "string"
+          },
+          "pending": {
+            "type": "string"
+          },
+          "lockedAmount": {
+            "type": "string"
+          },
+          "totalStakedCPU": {
+            "type": "string"
+          },
+          "totalStakedNetwork": {
+            "type": "string"
+          },
+          "selfStakedCPU": {
+            "type": "string"
+          },
+          "selfStakedNetwork": {
+            "type": "string"
+          },
+          "pendingRefundCPU": {
+            "type": "string"
+          },
+          "pendingRefundNetwork": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "total",
+          "available",
+          "pending",
+          "lockedAmount",
+          "totalStakedCPU",
+          "totalStakedNetwork",
+          "selfStakedCPU",
+          "selfStakedNetwork",
+          "pendingRefundCPU",
+          "pendingRefundNetwork"
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "hiddenOnUI",
+    "customerRefId",
+    "autoFuel",
+    "assets"
+  ]
+}
