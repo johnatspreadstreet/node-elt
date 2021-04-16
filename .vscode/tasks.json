@@ -7,14 +7,14 @@
       "label": "Typescript Watch",
       "command": "lerna run watch",
       "type": "shell"
-    },
-    {
-      "label": "Init",
-      "dependsOrder": "parallel",
-      "runOptions": {
-        "runOn": "folderOpen"
-      },
-      "dependsOn": ["Typescript Watch"]
     }
+    // {
+    //   "label": "Init",
+    //   "dependsOrder": "parallel",
+    //   "runOptions": {
+    //     "runOn": "folderOpen"
+    //   },
+    //   "dependsOn": ["Typescript Watch"]
+    // }
   ]
 }
