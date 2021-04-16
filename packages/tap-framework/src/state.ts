@@ -23,18 +23,16 @@ export const incorporate = (state, table, field, value) => {
 
   const newState = { ...state };
 
-  const parsed = dayjs(value).format();
-
   if (!get(newState, 'bookmarks', null)) {
     newState.bookmarks = {};
   }
 
   const lastRecord = get(newState, ['bookmarks', table, 'last_record'], null);
 
-  if (!lastRecord || lastRecord < value) {
+  if (!lastRecord) {
     newState.bookmarks[table] = {
       field,
-      last_record: parsed,
+      last_record: value,
     };
   }
 

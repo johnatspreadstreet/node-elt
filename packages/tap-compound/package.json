@@ -29,7 +29,7 @@
     "discover": "node ./bin/tap-compound.js --discover",
     "dry": "node ./bin/tap-compound.js --config config.json --catalog catalog.json | node ../target-stitch/lib/target-stitch.js -c config.json -n -v | pino-pretty",
     "generate": "node ./bin/tap-compound.js --config config.json --generate generate.json",
-    "sync": "node ./bin/tap-compound.js --config config.json --catalog catalog.json | pino-pretty",
+    "sync": "node ./bin/tap-compound.js --config config.json --catalog catalog.json | node ../target-stitch/lib/target-stitch.js -c config.json -v | pino-pretty",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

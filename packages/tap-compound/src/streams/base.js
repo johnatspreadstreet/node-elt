@@ -14,6 +14,8 @@ exports.BaseStream = class BaseStream extends streams.BaseStream {
   BASE_URL =
     'https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2';
 
+  PAGE_SIZE = 1000;
+
   loadSchemaByName(name) {
     const pathToSchema = resolve(__dirname, '..', 'schemas', `${name}.json`);
     const schema = fs.readFileSync(pathToSchema, { encoding: 'utf-8' });
@@ -30,25 +32,44 @@ exports.BaseStream = class BaseStream extends streams.BaseStream {
 
     Logger.info(`Syncing data for ${table}`);
 
-    const url = this.getUrl();
-    const query = this.getQuery();
-    const variables = this.getVariables();
+    // const response = await this.client.makeRequest(url, query, variables);
 
-    const response = await this.client.makeRequest(url, query, variables);
-
-    const transformed = this.getStreamData(response);
+    // const transformed = this.getStreamData(response);
+    const transformed = await this.syncPaginated();
 
     singer.messages.writeRecords(table, transformed);
 
     if (transformed.length > 0) {
       const lastRecord = last(transformed);
       const lastId = lastRecord.id;
-      this.state = state.incorporate(this.state, table, 'last_id', lastId);
+      this.state = state.incorporate(this.state, table, 'id', lastId);
     }
 
     state.saveState(this.state);
 
     return this.state;
+  }
+
+  async syncPaginated() {
+    let records = [];
+    let keepGoing = true;
+    let skip = 0;
+
+    while (keepGoing) {
+      const url = this.getUrl();
+      const query = this.getQuery();
+      const variables = this.getVariables(skip);
+
+      const response = await this.client.makeRequest(url, query, variables);
+      const transformed = this.getStreamData(response);
+      records = [...records, ...transformed];
+      skip += 1000;
+      if (response.length < this.PAGE_SIZE || skip > 5000) {
+        keepGoing = false;
+      }
+    }
+
+    return records;
   }
 
   getStreamData(response) {

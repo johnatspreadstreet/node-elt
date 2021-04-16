@@ -7,8 +7,8 @@ exports.LiquidationEvents = class LiquidationEvents extends BaseStream {
   RESPONSE_KEY = 'liquidationEvents';
 
   QUERY = gql`
-    {
-      liquidationEvents(first: 10) {
+    query liquidation_events($skip: Int!) {
+      liquidationEvents(first: 1000, skip: $skip) {
         id
         amount
         to
@@ -22,7 +22,7 @@ exports.LiquidationEvents = class LiquidationEvents extends BaseStream {
     }
   `;
 
-  VARIABLES = {};
+  VARIABLES = { skip: 0 };
 
   getMethod() {
     return this.API_METHOD;
@@ -38,7 +38,10 @@ exports.LiquidationEvents = class LiquidationEvents extends BaseStream {
     return this.QUERY;
   }
 
-  getVariables() {
+  getVariables(skip) {
+    this.VARIABLES = {
+      skip,
+    };
     return this.VARIABLES;
   }
 
