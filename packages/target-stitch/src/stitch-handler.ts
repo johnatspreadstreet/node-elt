@@ -2,8 +2,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import size from 'lodash/size';
 import get from 'lodash/get';
-import { BadRequest } from '@feathersjs/errors';
 import { Logger } from '@node-elt/singer-js';
+import { asyncForEach } from './arrays';
 import { axiosErrorHandler } from './error-handler';
 import { delay } from './delay';
 import { Config } from './types';
@@ -69,8 +69,6 @@ const makeRequest = async (
 
   try {
     const response = await axios(axiosConfig);
-
-    Logger.debug(response);
 
     if (response.status === 429) {
       Logger.error(
@@ -143,7 +141,7 @@ export const StitchHandler = (
   handle_state_only(state_writer = null, state = null) {
     // TODO
   },
-  handle_batch(
+  async handle_batch(
     messages,
     contains_activate_version,
     schema,
@@ -163,7 +161,7 @@ export const StitchHandler = (
       this.max_batch_records
     );
 
-    bodies.forEach((body, i) => {
+    await asyncForEach(bodies, async (body, i) => {
       if (size(body) > Number(DEFAULT_MAX_BATCH_BYTES)) {
         stitch_url = config.big_batch_url;
       }
@@ -172,7 +170,7 @@ export const StitchHandler = (
         flushable_state = state;
       }
 
-      this.send(
+      await this.send(
         body,
         contains_activate_version,
         state_writer,
@@ -180,5 +178,23 @@ export const StitchHandler = (
         stitch_url
       );
     });
+
+    // bodies.forEach((body, i) => {
+    //   if (size(body) > Number(DEFAULT_MAX_BATCH_BYTES)) {
+    //     stitch_url = config.big_batch_url;
+    //   }
+    //   let flushable_state = null;
+    //   if (i + 1 === size(bodies)) {
+    //     flushable_state = state;
+    //   }
+
+    //   this.send(
+    //     body,
+    //     contains_activate_version,
+    //     state_writer,
+    //     flushable_state,
+    //     stitch_url
+    //   );
+    // });
   },
 });
