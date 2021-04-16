@@ -8,7 +8,7 @@ exports.LiquidationEvents = class LiquidationEvents extends BaseStream {
 
   QUERY = gql`
     {
-      liquidationEvents(first: 1000) {
+      liquidationEvents(first: 10) {
         id
         amount
         to

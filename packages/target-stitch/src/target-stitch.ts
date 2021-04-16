@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 import commander from 'commander';
 import main from '.';
-
-const DEFAULT_MAX_BATCH_BYTES = '4000000';
-const DEFAULT_MAX_BATCH_RECORDS = '20000';
-const DEFAULT_BATCH_DELAY_SECONDS = '300';
-const MILLISECOND_SEQUENCE_MULTIPLIER = 1000;
-const NANOSECOND_SEQUENCE_MULTIPLIER = 1000000;
+import {
+  DEFAULT_BATCH_DELAY_SECONDS,
+  DEFAULT_MAX_BATCH_BYTES,
+  DEFAULT_MAX_BATCH_RECORDS,
+} from './constants';
 
 commander
   .option(

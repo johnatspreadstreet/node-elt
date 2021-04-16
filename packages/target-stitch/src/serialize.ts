@@ -5,10 +5,11 @@ import chunk from 'lodash/chunk';
 import padStart from 'lodash/padStart';
 import dayjs from 'dayjs';
 import { Logger } from '@node-elt/singer-js';
-
-const BIGBATCH_MAX_BATCH_BYTES = 20000000;
-const MILLISECOND_SEQUENCE_MULTIPLIER = 1000;
-const NANOSECOND_SEQUENCE_MULTIPLIER = 1000000;
+import {
+  BIGBATCH_MAX_BATCH_BYTES,
+  MILLISECOND_SEQUENCE_MULTIPLIER,
+  NANOSECOND_SEQUENCE_MULTIPLIER,
+} from './constants';
 
 const modulo = NANOSECOND_SEQUENCE_MULTIPLIER / MILLISECOND_SEQUENCE_MULTIPLIER;
 const zfill_width_mod =
@@ -39,18 +40,6 @@ const generate_sequence = (message_num, max_records) => {
     fill,
     '0'
   );
-
-  if (message_num < 100) {
-    console.log({
-      nanosecond_sequence_base,
-      modulo,
-      zfill_width_mod,
-      fill,
-      sequence_suffix,
-      output: nanosecond_sequence_base + sequence_suffix,
-      outputNum: Number(nanosecond_sequence_base + sequence_suffix),
-    });
-  }
 
   return Number(nanosecond_sequence_base + sequence_suffix);
 };
@@ -83,9 +72,6 @@ export const serialize = (
   messages.forEach((message, idx) => {
     if (message.type === 'RECORD') {
       const sequence = generate_sequence(idx, max_records);
-      if (!sequence) {
-        console.log({ idx, max_records });
-      }
       const record_message: any = {
         action: 'upsert',
         data: message.record,

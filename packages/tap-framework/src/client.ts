@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { Logger } from '@node-elt/singer-js';
 import { asyncErrorHandler, axiosErrorHandler } from './error-handler';
 
@@ -16,18 +16,18 @@ export const BaseClient = (config) => ({
   async makeRequest(url, method, baseBackoff = 45, params = null, body = null) {
     // Logger.info(`Making ${method} request to ${url}`);
 
-    const config = {
+    const axiosConfig: AxiosRequestConfig = {
       method,
       url,
       headers: {
         'Content-Type': 'application/json',
       },
       params,
-      body,
+      data: body,
     };
 
     try {
-      const response = await axios(config);
+      const response = await axios(axiosConfig);
 
       if (response.status === 429) {
         Logger.error(

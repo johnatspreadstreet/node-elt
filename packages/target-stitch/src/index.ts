@@ -5,6 +5,7 @@
 /* eslint-disable vars-on-top */
 /* eslint-disable no-restricted-globals */
 import fs from 'fs';
+import axios from 'axios';
 import { resolve } from 'path';
 import readline from 'readline';
 import dayjs from 'dayjs';
@@ -13,9 +14,11 @@ import reduce from 'lodash/reduce';
 import get from 'lodash/get';
 import size from 'lodash/size';
 import sum from 'lodash/sum';
+import isObjectLike from 'lodash/isObjectLike';
+import { Args, Config } from './types';
 import { LoggingHandler } from './logging-handler';
 import { Memory } from './memory';
-import { Args, Config } from './types';
+import { StitchHandler } from './stitch-handler';
 
 const { isValidJSONString } = messages;
 
@@ -47,6 +50,36 @@ const parseConfig = (configLocation) => {
   if (!get(CONFIG, 'client_id')) {
     throw new Error("Configuration is missing required token 'field'");
   }
+
+  if (!isObjectLike(get(CONFIG, 'batch_size_preferences'))) {
+    throw new Error('batch_size_preferences in config must be an object');
+  }
+
+  if (!get(CONFIG, 'full_table_streams')) {
+    CONFIG.batch_size_preferences.full_table_streams = [];
+  }
+
+  Logger.info(
+    `Using batch_size_preferences of ${CONFIG.batch_size_preferences}`
+  );
+
+  if (!get(CONFIG, 'turbo_boost_factor')) {
+    CONFIG.turbo_boost_factor = 1;
+  }
+
+  if (CONFIG.turbo_boost_factor !== 5) {
+    Logger.info(`Using turbo_boost_factor of ${CONFIG.turbo_boost_factor}`);
+  }
+
+  if (!get(CONFIG, 'small_batch_url')) {
+    throw new Error(`Configuration is missing required "small_batch_url`);
+  }
+
+  if (!get(CONFIG, 'big_batch_url')) {
+    throw new Error(`Configuration is missing required "big_batch_url`);
+  }
+
+  return CONFIG;
 };
 
 const TargetStitch = (
@@ -230,7 +263,11 @@ const run = async (args: Args, allMessages) => {
     throw new Error('Config file required if not in dry run mode');
   }
 
-  parseConfig(args.config);
+  const parsed = parseConfig(args.config);
+
+  handlers.push(
+    StitchHandler(parsed, args.maxBatchBytes, args.maxBatchRecords)
+  );
 
   const targetStitch = TargetStitch(
     handlers,
@@ -241,6 +278,9 @@ const run = async (args: Args, allMessages) => {
   );
 
   Logger.info('Starting consumption...');
+
+  const STATUS_URL = 'https://api.stitchdata.com/v2/import/status';
+  await axios.get(STATUS_URL);
 
   targetStitch.consume(allMessages);
 };

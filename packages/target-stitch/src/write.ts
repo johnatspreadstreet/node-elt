@@ -6,8 +6,6 @@ const json2csv = require('json2csv').parse;
 
 export const write = async (data, { fileName }) => {
   // output file in the same folder
-  const ext = path.extname(fileName);
-  console.log(ext);
   const filename = path.join(process.cwd(), `${fileName}`);
 
   let rows;
