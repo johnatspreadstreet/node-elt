@@ -296,6 +296,8 @@ const main = async (opts) => {
 
     if (types.includes(msg.type)) {
       allMessages.push(messages.parseMessage(msg));
+    } else {
+      console.log(msg);
     }
   }
 

@@ -78,7 +78,6 @@ exports.BaseStream = class BaseStream extends streams.BaseStream {
     const responseKey = this.responseKey();
 
     const records = get(response, responseKey, null);
-
     if (records) {
       records.forEach((datum) => {
         const record = this.transformRecord(datum);
